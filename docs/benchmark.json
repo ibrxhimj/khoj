@@ -1,0 +1,149 @@
+{
+  "graph": {
+    "nodes": 3696,
+    "edges": 5147,
+    "held_out_projects": 200,
+    "hidden_risk": 100,
+    "controls": 100,
+    "seed": 2026,
+    "threshold": 30.0
+  },
+  "methods": {
+    "Surface check (project's own records only)": {
+      "auc": 0.5,
+      "recall": 0.0,
+      "fpr": 0.0,
+      "precision": 0.0,
+      "control_mean": 0.0,
+      "per_pattern": {
+        "phoenix": {
+          "recall": 0.0,
+          "mean": 0.0
+        },
+        "land": {
+          "recall": 0.0,
+          "mean": 0.0
+        },
+        "contractor": {
+          "recall": 0.0,
+          "mean": 0.0
+        },
+        "key_person": {
+          "recall": 0.0,
+          "mean": 0.0
+        }
+      }
+    },
+    "Graph, 2 hops": {
+      "auc": 0.69,
+      "recall": 0.25,
+      "fpr": 0.0,
+      "precision": 1.0,
+      "control_mean": 0.0,
+      "per_pattern": {
+        "phoenix": {
+          "recall": 0.0,
+          "mean": 0.0
+        },
+        "land": {
+          "recall": 0.52,
+          "mean": 22.567999999999998
+        },
+        "contractor": {
+          "recall": 0.48,
+          "mean": 29.012
+        },
+        "key_person": {
+          "recall": 0.0,
+          "mean": 0.0
+        }
+      }
+    },
+    "Graph, strongest path per flag (no path summation)": {
+      "auc": 1.0,
+      "recall": 0.81,
+      "fpr": 0.0,
+      "precision": 1.0,
+      "control_mean": 0.0,
+      "per_pattern": {
+        "phoenix": {
+          "recall": 0.96,
+          "mean": 42.544
+        },
+        "land": {
+          "recall": 1.0,
+          "mean": 41.816
+        },
+        "contractor": {
+          "recall": 0.48,
+          "mean": 29.012
+        },
+        "key_person": {
+          "recall": 0.8,
+          "mean": 38.5
+        }
+      }
+    },
+    "Graph, no structural rules": {
+      "auc": 0.6154,
+      "recall": 0.96,
+      "fpr": 0.93,
+      "precision": 0.5079365079365079,
+      "control_mean": 52.233,
+      "per_pattern": {
+        "phoenix": {
+          "recall": 1.0,
+          "mean": 64.744
+        },
+        "land": {
+          "recall": 1.0,
+          "mean": 69.396
+        },
+        "contractor": {
+          "recall": 0.88,
+          "mean": 48.94
+        },
+        "key_person": {
+          "recall": 0.96,
+          "mean": 60.076
+        }
+      }
+    },
+    "Khoj (full model)": {
+      "auc": 1.0,
+      "recall": 0.81,
+      "fpr": 0.0,
+      "precision": 1.0,
+      "control_mean": 0.0,
+      "per_pattern": {
+        "phoenix": {
+          "recall": 0.96,
+          "mean": 50.12
+        },
+        "land": {
+          "recall": 1.0,
+          "mean": 53.62
+        },
+        "contractor": {
+          "recall": 0.48,
+          "mean": 29.012
+        },
+        "key_person": {
+          "recall": 0.8,
+          "mean": 38.5
+        }
+      }
+    }
+  },
+  "latency_ms": {
+    "p50": 2.9,
+    "p95": 4.4,
+    "max": 7.7
+  },
+  "reference_check": {
+    "projects": 200,
+    "mismatches": 0,
+    "max_abs_diff_K": 0.0
+  },
+  "runtime_s": 3.4
+}
