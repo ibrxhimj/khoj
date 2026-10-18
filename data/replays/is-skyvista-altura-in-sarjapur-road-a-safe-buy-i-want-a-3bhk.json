@@ -1,0 +1,1397 @@
+{
+ "kind": "ask",
+ "question": "Is Skyvista Altura in Sarjapur Road a safe buy? I want a 3BHK under 1.7 Cr.",
+ "result": {
+  "text": "**Avoid for now: risk 84.6/100 (HIGH)**\n\n- **Shared directors with a troubled group:** Altura Habitat Pvt Ltd, which builds Skyvista Altura, has directors who previously sat on boards of the Northstar group. Northstar Habitats Pvt Ltd is insolvent, with NCLT case CP (IB) 214/BB/2024 pending.\n- **Sister projects have failed:** Northstar Lakeside's LLP is struck off, and its Northstar Lake Vista project is stalled (46 months late). Northstar Palm Grove is stalled (58 months late).\n- **What is clean:** The land is A-khata with no court cases found, and the 3BHK is priced at \u20b996\u2013165 lakh, within your budget. The project has no complaints yet because it only launched in 2026.\n- **Gap to verify:** The profile lists two RERA numbers (ending 003319 and 003322).\n\n**Next step:** Before considering this project, confirm the correct RERA number and the NCLT case status. Meanwhile, the Investigator found lower-risk 3BHK options on Sarjapur Road, all rated LOW. Greenfield Sarjapur Greens (\u20b988\u2013150 lakh) and Banyan Grove Whispering Woods (\u20b992\u2013158 lakh) fit your budget. Would you like me to shortlist one of them?",
+  "events": [
+   {
+    "agent": "concierge",
+    "type": "thought",
+    "text": "I'll save your criteria and check the project with the Investigator."
+   },
+   {
+    "agent": "concierge",
+    "type": "tool_call",
+    "name": "remember",
+    "input": {
+     "type": "preference",
+     "key": "budget_max_lakh",
+     "value": "170"
+    }
+   },
+   {
+    "agent": "concierge",
+    "type": "tool_result",
+    "name": "remember",
+    "output": {
+     "stored": true,
+     "type": "preference",
+     "key": "budget_max_lakh",
+     "value": "170",
+     "replaced": null
+    },
+    "cypher": [],
+    "graph": null
+   },
+   {
+    "agent": "concierge",
+    "type": "tool_call",
+    "name": "remember",
+    "input": {
+     "type": "preference",
+     "key": "bhk",
+     "value": "3"
+    }
+   },
+   {
+    "agent": "concierge",
+    "type": "tool_result",
+    "name": "remember",
+    "output": {
+     "stored": true,
+     "type": "preference",
+     "key": "bhk",
+     "value": "3",
+     "replaced": null
+    },
+    "cypher": [],
+    "graph": null
+   },
+   {
+    "agent": "concierge",
+    "type": "tool_call",
+    "name": "remember",
+    "input": {
+     "type": "preference",
+     "key": "localities",
+     "value": "Sarjapur Road"
+    }
+   },
+   {
+    "agent": "concierge",
+    "type": "tool_result",
+    "name": "remember",
+    "output": {
+     "stored": true,
+     "type": "preference",
+     "key": "localities",
+     "value": "Sarjapur Road",
+     "replaced": null
+    },
+    "cypher": [],
+    "graph": null
+   },
+   {
+    "agent": "concierge",
+    "type": "tool_call",
+    "name": "ask_investigator",
+    "input": {
+     "question": "Is Skyvista Altura in Sarjapur Road, Bangalore a safe buy? Buyer wants a 3BHK priced under INR 1.7 Cr (170 lakh). Please report the project's risk score and the evidence behind it, including developer track record, land title status, approvals, possession timeline, and any delays or stalled-project signals, with dates and qualifiers as found."
+    }
+   },
+   {
+    "agent": "concierge",
+    "type": "handoff",
+    "case_id": "C-8967ba7b",
+    "question": "Is Skyvista Altura in Sarjapur Road, Bangalore a safe buy? Buyer wants a 3BHK priced under INR 1.7 Cr (170 lakh). Please report the project's risk score and the evidence behind it, including developer track record, land title status, approvals, possession timeline, and any delays or stalled-project signals, with dates and qualifiers as found.",
+    "brief": "Preferences: bhk=3; budget_max_lakh=170; localities=Sarjapur Road"
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "search_projects",
+    "input": {
+     "name": "Skyvista Altura"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "search_projects",
+    "output": {
+     "status": "ANSWERED_WITH_PATH",
+     "projects": [
+      {
+       "id": "PRJ-ALTURA",
+       "name": "Skyvista Altura",
+       "locality": "Sarjapur Road",
+       "status": "launch",
+       "bhk": [
+        2,
+        3
+       ],
+       "price_min_lakh": 96,
+       "price_max_lakh": 165,
+       "launch_year": 2026,
+       "company": "Altura Habitat Pvt Ltd",
+       "brand": "Skyvista Builders",
+       "risk_score": 84.6,
+       "risk_band": "HIGH"
+      }
+     ],
+     "count": 1
+    },
+    "cypher": [
+     "CALL db.idx.fulltext.queryNodes('Project', 'Skyvista* Altura*') YIELD node RETURN node.id AS id LIMIT 10",
+     "MATCH (p:Project)<-[:DEVELOPS]-(c:Company)\nOPTIONAL MATCH (g:Group)-[:CONTROLS]->(c)\nWITH p, c, g\nWHERE ($locality IS NULL OR toLower(p.locality) CONTAINS toLower($locality))\n  AND ($budget IS NULL OR p.price_min_lakh <= $budget)\n  AND ($bhk IS NULL OR $bhk IN p.bhk)\n  AND ($ids IS NULL OR p.id IN $ids)\n  AND ($include_stalled OR p.status <> 'stalled')\nRETURN p.id AS id, p.name AS name, p.locality AS locality, p.status AS status, p.bhk AS bhk,\n       p.price_min_lakh AS price_min_lakh, p.price_max_lakh AS price_max_lakh,\n       p.launch_year AS launch_year, c.name AS company, g.name AS brand\nORDER BY p.price_min_lakh\nLIMIT $limit",
+     "-- risk scored per project with trace_risk's path query"
+    ],
+    "graph": null
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "recall_findings",
+    "input": {
+     "project_id": "PRJ-ALTURA"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "recall_findings",
+    "output": {
+     "status": "NOT_IN_GRAPH",
+     "message": "No earlier finding about this project in the buyer's memory."
+    },
+    "cypher": [],
+    "graph": null
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "project_profile",
+    "input": {
+     "project_id": "PRJ-ALTURA"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "project_profile",
+    "output": {
+     "status": "ANSWERED_WITH_PATH",
+     "project": {
+      "bhk": [
+       2,
+       3
+      ],
+      "delay_months": 0,
+      "highlights": "4 towers, 45,000 sq ft clubhouse, 80% open space, launch offer: 10:90 payment plan",
+      "id": "PRJ-ALTURA",
+      "launch_year": 2026,
+      "locality": "Sarjapur Road",
+      "name": "Skyvista Altura",
+      "price_max_lakh": 165,
+      "price_min_lakh": 96,
+      "promised_possession": 2030,
+      "rera_id": "PRM/KA/RERA/1251/359/PR/260721/003319",
+      "status": "launch",
+      "units": 420
+     },
+     "company": "Altura Habitat Pvt Ltd",
+     "company_status": "active",
+     "incorporated": 2025,
+     "brand": "Skyvista Builders",
+     "brand_since": 2025,
+     "directors": [
+      "Rohan Kulkarni",
+      "Meera Shetty",
+      "Nikhil Bhat"
+     ],
+     "land": "Sy. No. 180/3, Kodathi",
+     "khata": "A",
+     "acres": 2.0,
+     "contractor": "Titan Buildtech",
+     "lender": "Cauvery Housing Finance",
+     "approvals": [
+      {
+       "type": "GBA plan",
+       "status": "granted",
+       "year": 2025,
+       "ref": null
+      },
+      {
+       "type": "RERA",
+       "status": "granted",
+       "year": 2026,
+       "ref": "PRM/KA/RERA/1251/354/PR/260803/003322"
+      }
+     ],
+     "complaints": {
+      "open": 0,
+      "resolved": 0,
+      "by_category": []
+     }
+    },
+    "cypher": [
+     "MATCH (p:Project {id: $id})<-[:DEVELOPS]-(c:Company)\nOPTIONAL MATCH (g:Group)-[:CONTROLS]->(c)\nOPTIONAL MATCH (d:Person)-[dir:DIRECTOR_OF]->(c)\nOPTIONAL MATCH (p)-[:BUILT_ON]->(l:LandParcel)\nOPTIONAL MATCH (con:Contractor)-[:BUILDS]->(p)\nOPTIONAL MATCH (len:Lender)-[:FINANCES]->(p)\nRETURN p {.*} AS project, c.name AS company, c.status AS company_status, c.incorporated AS incorporated,\n       g.name AS brand, g.brand_since AS brand_since,\n       collect(DISTINCT d.name) AS directors, l.name AS land, l.khata AS khata, l.acres AS acres,\n       con.name AS contractor, len.name AS lender",
+     "MATCH (p:Project {id: $id})-[:HAS_APPROVAL]->(a:Approval)\nRETURN a.type AS type, a.status AS status, a.year AS year, a.ref AS ref ORDER BY a.year",
+     "MATCH (p:Project {id: $id})<-[:AGAINST]-(c:Complaint)\nRETURN c.status AS status, c.category AS category, count(c) AS n"
+    ],
+    "graph": null
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "trace_risk",
+    "input": {
+     "project_id": "PRJ-ALTURA"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "trace_risk",
+    "output": {
+     "project_id": "PRJ-ALTURA",
+     "project": "Skyvista Altura",
+     "truncated": false,
+     "direct_flags": [],
+     "risk_score": 84.6,
+     "band": "HIGH",
+     "katz_K": 1.872,
+     "n_flags": 6,
+     "n_paths": 10,
+     "by_flag_kind": {
+      "Company": 0.792,
+      "Project": 0.756,
+      "CourtCase": 0.324
+     },
+     "top_evidence": [
+      {
+       "flag_id": "CMP-NORTHSTAR-HAB",
+       "flag_kind": "Company",
+       "flag_name": "Northstar Habitats Pvt Ltd",
+       "reason": "Company insolvency",
+       "severity": 0.8,
+       "created_at": 1792022400,
+       "contribution": 0.576,
+       "n_paths": 2,
+       "min_hops": 3,
+       "share_pct": 30.8,
+       "path_text": "Skyvista Altura -[DEVELOPS]- Altura Habitat Pvt Ltd -[DIRECTOR_OF]- Meera Shetty -[DIRECTOR_OF]- Northstar Habitats Pvt Ltd"
+      },
+      {
+       "flag_id": "PRJ-NS-PALM",
+       "flag_kind": "Project",
+       "flag_name": "Northstar Palm Grove",
+       "reason": "Project stalled",
+       "severity": 0.8,
+       "created_at": 1792022400,
+       "contribution": 0.346,
+       "n_paths": 2,
+       "min_hops": 4,
+       "share_pct": 18.5,
+       "path_text": "Skyvista Altura -[DEVELOPS]- Altura Habitat Pvt Ltd -[DIRECTOR_OF]- Meera Shetty -[DIRECTOR_OF]- Northstar Habitats Pvt Ltd -[DEVELOPS]- Northstar Palm Grove"
+      },
+      {
+       "flag_id": "CRT-NCLT-NORTHSTAR",
+       "flag_kind": "CourtCase",
+       "flag_name": "CP (IB) 214/BB/2024 (insolvency)",
+       "reason": "Pending insolvency case in NCLT Bengaluru",
+       "severity": 0.75,
+       "created_at": 1792022400,
+       "contribution": 0.324,
+       "n_paths": 2,
+       "min_hops": 4,
+       "share_pct": 17.3,
+       "path_text": "Skyvista Altura -[DEVELOPS]- Altura Habitat Pvt Ltd -[DIRECTOR_OF]- Meera Shetty -[DIRECTOR_OF]- Northstar Habitats Pvt Ltd -[INVOLVES]- CP (IB) 214/BB/2024 (insolvency)"
+      },
+      {
+       "flag_id": "PRJ-NS-MEADOWS",
+       "flag_kind": "Project",
+       "flag_name": "Northstar Meadows",
+       "reason": "Delivered/running 30 months late",
+       "severity": 0.55,
+       "created_at": 1792022400,
+       "contribution": 0.238,
+       "n_paths": 2,
+       "min_hops": 4,
+       "share_pct": 12.7,
+       "path_text": "Skyvista Altura -[DEVELOPS]- Altura Habitat Pvt Ltd -[DIRECTOR_OF]- Meera Shetty -[DIRECTOR_OF]- Northstar Habitats Pvt Ltd -[DEVELOPS]- Northstar Meadows"
+      },
+      {
+       "flag_id": "CMP-NORTHSTAR-LAKE",
+       "flag_kind": "Company",
+       "flag_name": "Northstar Lakeside Developers LLP",
+       "reason": "Company struck off",
+       "severity": 0.6,
+       "created_at": 1792022400,
+       "contribution": 0.216,
+       "n_paths": 1,
+       "min_hops": 3,
+       "share_pct": 11.5,
+       "path_text": "Skyvista Altura -[DEVELOPS]- Altura Habitat Pvt Ltd -[DIRECTOR_OF]- Rohan Kulkarni -[DIRECTOR_OF]- Northstar Lakeside Developers LLP"
+      },
+      {
+       "flag_id": "PRJ-NS-LAKE",
+       "flag_kind": "Project",
+       "flag_name": "Northstar Lake Vista",
+       "reason": "Project stalled",
+       "severity": 0.8,
+       "created_at": 1792022400,
+       "contribution": 0.173,
+       "n_paths": 1,
+       "min_hops": 4,
+       "share_pct": 9.2,
+       "path_text": "Skyvista Altura -[DEVELOPS]- Altura Habitat Pvt Ltd -[DIRECTOR_OF]- Rohan Kulkarni -[DIRECTOR_OF]- Northstar Lakeside Developers LLP -[DEVELOPS]- Northstar Lake Vista"
+      }
+     ],
+     "model": {
+      "beta": 0.6,
+      "max_hops": 4
+     },
+     "status": "ANSWERED_WITH_PATH",
+     "how_to_read": "risk_score 0-100 = 100*(1-exp(-K)); K sums severity * 0.6^(hops-1) * edge weights over every path to a red flag within 4 hops. share_pct = share of K from that flag; n_paths = how many distinct paths reach it."
+    },
+    "cypher": [
+     "MATCH path = (p:Project {id: $id})-[:DEVELOPS|DIRECTOR_OF|CONTROLS|BUILT_ON|PREVIOUSLY_OWNED_BY|INVOLVES|AGAINST|HAS_APPROVAL|BUILDS*1..4]-(f:RedFlag)\nWHERE f <> p\n  AND none(n IN nodes(path)[1..-1] WHERE n.kind = 'Project')\n  AND size([r IN relationships(path) WHERE type(r) = 'PREVIOUSLY_OWNED_BY']) <= 1\nRETURN f.id AS flag_id, f.kind AS flag_kind, f.name AS flag_name, f.reason AS reason,\n       f.severity AS severity, f.created_at AS created_at, length(path) AS hops,\n       [n IN nodes(path) | {id: n.id, kind: n.kind, name: n.name}] AS nodes,\n       [r IN relationships(path) | type(r)] AS rels\nLIMIT 2001"
+    ],
+    "graph": {
+     "nodes": [
+      {
+       "id": "PRJ-ALTURA",
+       "kind": "Project",
+       "name": "Skyvista Altura",
+       "flag": false
+      },
+      {
+       "id": "CMP-ALTURA",
+       "kind": "Company",
+       "name": "Altura Habitat Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "PER-MEERA",
+       "kind": "Person",
+       "name": "Meera Shetty",
+       "flag": false
+      },
+      {
+       "id": "CMP-NORTHSTAR-HAB",
+       "kind": "Company",
+       "name": "Northstar Habitats Pvt Ltd",
+       "flag": true
+      },
+      {
+       "id": "PRJ-NS-PALM",
+       "kind": "Project",
+       "name": "Northstar Palm Grove",
+       "flag": true
+      },
+      {
+       "id": "CRT-NCLT-NORTHSTAR",
+       "kind": "CourtCase",
+       "name": "CP (IB) 214/BB/2024 (insolvency)",
+       "flag": true
+      },
+      {
+       "id": "PRJ-NS-MEADOWS",
+       "kind": "Project",
+       "name": "Northstar Meadows",
+       "flag": true
+      },
+      {
+       "id": "PER-ROHAN",
+       "kind": "Person",
+       "name": "Rohan Kulkarni",
+       "flag": false
+      },
+      {
+       "id": "CMP-NORTHSTAR-LAKE",
+       "kind": "Company",
+       "name": "Northstar Lakeside Developers LLP",
+       "flag": true
+      },
+      {
+       "id": "PRJ-NS-LAKE",
+       "kind": "Project",
+       "name": "Northstar Lake Vista",
+       "flag": true
+      }
+     ],
+     "edges": [
+      {
+       "src": "PRJ-ALTURA",
+       "dst": "CMP-ALTURA",
+       "type": "DEVELOPS",
+       "hot": true
+      },
+      {
+       "src": "CMP-ALTURA",
+       "dst": "PER-MEERA",
+       "type": "DIRECTOR_OF",
+       "hot": true
+      },
+      {
+       "src": "PER-MEERA",
+       "dst": "CMP-NORTHSTAR-HAB",
+       "type": "DIRECTOR_OF",
+       "hot": true
+      },
+      {
+       "src": "CMP-NORTHSTAR-HAB",
+       "dst": "PRJ-NS-PALM",
+       "type": "DEVELOPS",
+       "hot": false
+      },
+      {
+       "src": "CMP-NORTHSTAR-HAB",
+       "dst": "CRT-NCLT-NORTHSTAR",
+       "type": "INVOLVES",
+       "hot": false
+      },
+      {
+       "src": "CMP-NORTHSTAR-HAB",
+       "dst": "PRJ-NS-MEADOWS",
+       "type": "DEVELOPS",
+       "hot": false
+      },
+      {
+       "src": "CMP-ALTURA",
+       "dst": "PER-ROHAN",
+       "type": "DIRECTOR_OF",
+       "hot": false
+      },
+      {
+       "src": "PER-ROHAN",
+       "dst": "CMP-NORTHSTAR-LAKE",
+       "type": "DIRECTOR_OF",
+       "hot": false
+      },
+      {
+       "src": "CMP-NORTHSTAR-LAKE",
+       "dst": "PRJ-NS-LAKE",
+       "type": "DEVELOPS",
+       "hot": false
+      }
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "land_title_check",
+    "input": {
+     "project_id": "PRJ-ALTURA"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "land_title_check",
+    "output": {
+     "status": "NOT_IN_GRAPH",
+     "project": "Skyvista Altura",
+     "land": "Sy. No. 180/3, Kodathi",
+     "khata": "A",
+     "acres": 2.0,
+     "previous_owner": "Joseph Hegde",
+     "owner_kind": "Person",
+     "owned_until": 2025,
+     "court_cases": [],
+     "verdict": "No title issues found"
+    },
+    "cypher": [
+     "MATCH (p:Project {id: $id})-[b:BUILT_ON]->(l:LandParcel)\nOPTIONAL MATCH (l)-[po:PREVIOUSLY_OWNED_BY]->(o)\nOPTIONAL MATCH (k:CourtCase)-[:INVOLVES]->(x) WHERE x = l OR x = o\nRETURN p.name AS project, l.id AS land_id, l.name AS land, l.khata AS khata, l.acres AS acres,\n       o.id AS owner_id, o.name AS previous_owner, o.kind AS owner_kind, po.until AS owned_until,\n       collect(DISTINCT CASE WHEN k IS NULL THEN NULL ELSE\n           {id: k.id, case_no: k.case_no, court: k.court, nature: k.nature, status: k.status,\n            filed: k.filed, parties: k.parties, involves: x.name} END) AS cases"
+    ],
+    "graph": {
+     "nodes": [
+      {
+       "id": "PRJ-ALTURA",
+       "kind": "Project",
+       "name": "Skyvista Altura",
+       "flag": false
+      },
+      {
+       "id": "LND-081",
+       "kind": "LandParcel",
+       "name": "Sy. No. 180/3, Kodathi",
+       "flag": false
+      },
+      {
+       "id": "PER-001",
+       "kind": "Person",
+       "name": "Joseph Hegde",
+       "flag": false
+      }
+     ],
+     "edges": [
+      {
+       "src": "PRJ-ALTURA",
+       "dst": "LND-081",
+       "type": "BUILT_ON"
+      },
+      {
+       "src": "LND-081",
+       "dst": "PER-001",
+       "type": "PREVIOUSLY_OWNED_BY"
+      }
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "developer_network",
+    "input": {
+     "project_id": "PRJ-ALTURA"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "developer_network",
+    "output": {
+     "status": "ANSWERED_WITH_PATH",
+     "developer": "Altura Habitat Pvt Ltd",
+     "group_size": {
+      "companies": 3,
+      "people": 4
+     },
+     "brands_in_group": [
+      "Northstar Homes",
+      "Skyvista Builders"
+     ],
+     "failed_companies": [
+      "Northstar Lakeside Developers LLP",
+      "Northstar Habitats Pvt Ltd"
+     ],
+     "bridging_directors": {
+      "Rohan Kulkarni": [
+       "Altura Habitat Pvt Ltd (2025-now)",
+       "Northstar Habitats Pvt Ltd (2009-2024)",
+       "Northstar Lakeside Developers LLP (2014-2022)"
+      ],
+      "Meera Shetty": [
+       "Altura Habitat Pvt Ltd (2025-now)",
+       "Northstar Habitats Pvt Ltd (2012-2024)"
+      ],
+      "Arjun Varma": [
+       "Northstar Habitats Pvt Ltd (2009-2023)",
+       "Northstar Lakeside Developers LLP (2014-2022)"
+      ]
+     },
+     "companies": [
+      {
+       "company_id": "CMP-ALTURA",
+       "company": "Altura Habitat Pvt Ltd",
+       "company_status": "active",
+       "brand": "Skyvista Builders",
+       "projects": [
+        {
+         "id": "PRJ-ALTURA",
+         "name": "Skyvista Altura",
+         "status": "launch",
+         "delay_months": 0,
+         "open_complaints": 0
+        }
+       ]
+      },
+      {
+       "company_id": "CMP-NORTHSTAR-LAKE",
+       "company": "Northstar Lakeside Developers LLP",
+       "company_status": "struck_off",
+       "brand": "Northstar Homes",
+       "projects": [
+        {
+         "id": "PRJ-NS-LAKE",
+         "name": "Northstar Lake Vista",
+         "status": "stalled",
+         "delay_months": 46,
+         "open_complaints": 22
+        }
+       ]
+      },
+      {
+       "company_id": "CMP-NORTHSTAR-HAB",
+       "company": "Northstar Habitats Pvt Ltd",
+       "company_status": "insolvency",
+       "brand": "Northstar Homes",
+       "projects": [
+        {
+         "id": "PRJ-NS-PALM",
+         "name": "Northstar Palm Grove",
+         "status": "stalled",
+         "delay_months": 58,
+         "open_complaints": 29
+        },
+        {
+         "id": "PRJ-NS-MEADOWS",
+         "name": "Northstar Meadows",
+         "status": "delivered",
+         "delay_months": 30,
+         "open_complaints": 5
+        }
+       ]
+      }
+     ],
+     "court_cases": [
+      {
+       "company": "Northstar Habitats Pvt Ltd",
+       "case_no": "CP (IB) 214/BB/2024",
+       "court": "NCLT Bengaluru",
+       "nature": "insolvency",
+       "status": "pending"
+      }
+     ],
+     "algorithm": "algo.WCC on (:Person)-[:DIRECTOR_OF]->(:Company)"
+    },
+    "cypher": [
+     "CALL algo.WCC({nodeLabels: ['Person', 'Company'], relationshipTypes: ['DIRECTOR_OF']})\nYIELD node, componentId\nRETURN node.id AS id, componentId AS component",
+     "MATCH (c:Company) WHERE c.id IN $company_ids\nOPTIONAL MATCH (g:Group)-[:CONTROLS]->(c)\nOPTIONAL MATCH (c)-[:DEVELOPS]->(p:Project)\nOPTIONAL MATCH (p)<-[:AGAINST]-(cp:Complaint {status: 'open'})\nWITH c, g, p, count(cp) AS open_complaints\nRETURN c.id AS company_id, c.name AS company, c.status AS company_status, g.name AS brand,\n       collect(CASE WHEN p IS NULL THEN NULL ELSE {id: p.id, name: p.name, status: p.status,\n               delay_months: p.delay_months, open_complaints: open_complaints} END) AS projects",
+     "MATCH (d:Person)-[r:DIRECTOR_OF]->(c:Company)\nWHERE c.id IN $company_ids\nRETURN d.id AS person_id, d.name AS person, c.id AS company_id, c.name AS company,\n       r.since AS since, r.until AS until",
+     "MATCH (k:CourtCase)-[:INVOLVES]->(c:Company) WHERE c.id IN $company_ids\nRETURN c.name AS company, k.case_no AS case_no, k.court AS court, k.nature AS nature, k.status AS status"
+    ],
+    "graph": {
+     "nodes": [
+      {
+       "id": "CMP-ALTURA",
+       "kind": "Company",
+       "name": "Altura Habitat Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "PRJ-ALTURA",
+       "kind": "Project",
+       "name": "Skyvista Altura",
+       "flag": false
+      },
+      {
+       "id": "CMP-NORTHSTAR-LAKE",
+       "kind": "Company",
+       "name": "Northstar Lakeside Developers LLP",
+       "flag": true
+      },
+      {
+       "id": "PRJ-NS-LAKE",
+       "kind": "Project",
+       "name": "Northstar Lake Vista",
+       "flag": true
+      },
+      {
+       "id": "CMP-NORTHSTAR-HAB",
+       "kind": "Company",
+       "name": "Northstar Habitats Pvt Ltd",
+       "flag": true
+      },
+      {
+       "id": "PRJ-NS-PALM",
+       "kind": "Project",
+       "name": "Northstar Palm Grove",
+       "flag": true
+      },
+      {
+       "id": "PRJ-NS-MEADOWS",
+       "kind": "Project",
+       "name": "Northstar Meadows",
+       "flag": true
+      },
+      {
+       "id": "PER-ROHAN",
+       "kind": "Person",
+       "name": "Rohan Kulkarni",
+       "flag": false
+      },
+      {
+       "id": "PER-MEERA",
+       "kind": "Person",
+       "name": "Meera Shetty",
+       "flag": false
+      },
+      {
+       "id": "PER-NIKHIL",
+       "kind": "Person",
+       "name": "Nikhil Bhat",
+       "flag": false
+      },
+      {
+       "id": "PER-ARJUN",
+       "kind": "Person",
+       "name": "Arjun Varma",
+       "flag": false
+      }
+     ],
+     "edges": [
+      {
+       "src": "CMP-ALTURA",
+       "dst": "PRJ-ALTURA",
+       "type": "DEVELOPS"
+      },
+      {
+       "src": "CMP-NORTHSTAR-LAKE",
+       "dst": "PRJ-NS-LAKE",
+       "type": "DEVELOPS"
+      },
+      {
+       "src": "CMP-NORTHSTAR-HAB",
+       "dst": "PRJ-NS-PALM",
+       "type": "DEVELOPS"
+      },
+      {
+       "src": "CMP-NORTHSTAR-HAB",
+       "dst": "PRJ-NS-MEADOWS",
+       "type": "DEVELOPS"
+      },
+      {
+       "src": "PER-ROHAN",
+       "dst": "CMP-ALTURA",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-MEERA",
+       "dst": "CMP-ALTURA",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-NIKHIL",
+       "dst": "CMP-ALTURA",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-ROHAN",
+       "dst": "CMP-NORTHSTAR-HAB",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-MEERA",
+       "dst": "CMP-NORTHSTAR-HAB",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-ARJUN",
+       "dst": "CMP-NORTHSTAR-HAB",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-ROHAN",
+       "dst": "CMP-NORTHSTAR-LAKE",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-ARJUN",
+       "dst": "CMP-NORTHSTAR-LAKE",
+       "type": "DIRECTOR_OF"
+      }
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "key_people",
+    "input": {
+     "project_id": "PRJ-ALTURA"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "key_people",
+    "output": {
+     "status": "ANSWERED_WITH_PATH",
+     "directors": [
+      {
+       "name": "Rohan Kulkarni",
+       "betweenness": 12.8,
+       "rank_among_all_directors": 7,
+       "total_ranked_directors": 34,
+       "companies": 3,
+       "brands": [
+        "Northstar Homes",
+        "Skyvista Builders"
+       ],
+       "failed_companies": [
+        "Northstar Habitats Pvt Ltd",
+        "Northstar Lakeside Developers LLP"
+       ],
+       "boards": [
+        {
+         "company": "Northstar Habitats Pvt Ltd",
+         "status": "insolvency",
+         "brand": "Northstar Homes",
+         "since": 2009,
+         "until": 2024
+        },
+        {
+         "company": "Northstar Lakeside Developers LLP",
+         "status": "struck_off",
+         "brand": "Northstar Homes",
+         "since": 2014,
+         "until": 2022
+        },
+        {
+         "company": "Altura Habitat Pvt Ltd",
+         "status": "active",
+         "brand": "Skyvista Builders",
+         "since": 2025,
+         "until": null
+        }
+       ]
+      },
+      {
+       "name": "Meera Shetty",
+       "betweenness": 2.5,
+       "rank_among_all_directors": 17,
+       "total_ranked_directors": 34,
+       "companies": 2,
+       "brands": [
+        "Northstar Homes",
+        "Skyvista Builders"
+       ],
+       "failed_companies": [
+        "Northstar Habitats Pvt Ltd"
+       ],
+       "boards": [
+        {
+         "company": "Northstar Habitats Pvt Ltd",
+         "status": "insolvency",
+         "brand": "Northstar Homes",
+         "since": 2012,
+         "until": 2024
+        },
+        {
+         "company": "Altura Habitat Pvt Ltd",
+         "status": "active",
+         "brand": "Skyvista Builders",
+         "since": 2025,
+         "until": null
+        }
+       ]
+      },
+      {
+       "name": "Nikhil Bhat",
+       "betweenness": 0.0,
+       "rank_among_all_directors": null,
+       "total_ranked_directors": 34,
+       "companies": 1,
+       "brands": [
+        "Skyvista Builders"
+       ],
+       "failed_companies": [],
+       "boards": [
+        {
+         "company": "Altura Habitat Pvt Ltd",
+         "status": "active",
+         "brand": "Skyvista Builders",
+         "since": 2025,
+         "until": null
+        }
+       ]
+      }
+     ],
+     "algorithm": "algo.betweenness on the Person-Company directorship network (both edge directions)"
+    },
+    "cypher": [
+     "CALL algo.betweenness({nodeLabels: ['Person', 'Company'], relationshipTypes: ['DIRECTOR_OF', 'HAS_DIRECTOR']})\nYIELD node, score\nWITH node, score WHERE node.kind = 'Person' AND score > 0\nRETURN node.id AS id, node.name AS name, score\nORDER BY score DESC",
+     "MATCH (d:Person)-[r:DIRECTOR_OF]->(c:Company) WHERE d.id IN $ids\nOPTIONAL MATCH (g:Group)-[:CONTROLS]->(c)\nRETURN d.id AS id, collect({company_id: c.id, company: c.name, status: c.status, brand: g.name,\n                             since: r.since, until: r.until}) AS boards"
+    ],
+    "graph": {
+     "nodes": [
+      {
+       "id": "PER-ROHAN",
+       "kind": "Person",
+       "name": "Rohan Kulkarni",
+       "flag": false
+      },
+      {
+       "id": "CMP-NORTHSTAR-HAB",
+       "kind": "Company",
+       "name": "Northstar Habitats Pvt Ltd",
+       "flag": true
+      },
+      {
+       "id": "CMP-NORTHSTAR-LAKE",
+       "kind": "Company",
+       "name": "Northstar Lakeside Developers LLP",
+       "flag": true
+      },
+      {
+       "id": "CMP-ALTURA",
+       "kind": "Company",
+       "name": "Altura Habitat Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "PER-MEERA",
+       "kind": "Person",
+       "name": "Meera Shetty",
+       "flag": false
+      },
+      {
+       "id": "PER-NIKHIL",
+       "kind": "Person",
+       "name": "Nikhil Bhat",
+       "flag": false
+      }
+     ],
+     "edges": [
+      {
+       "src": "PER-ROHAN",
+       "dst": "CMP-NORTHSTAR-HAB",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-ROHAN",
+       "dst": "CMP-NORTHSTAR-LAKE",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-ROHAN",
+       "dst": "CMP-ALTURA",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-MEERA",
+       "dst": "CMP-NORTHSTAR-HAB",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-MEERA",
+       "dst": "CMP-ALTURA",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-NIKHIL",
+       "dst": "CMP-ALTURA",
+       "type": "DIRECTOR_OF"
+      }
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "contractor_record",
+    "input": {
+     "project_id": "PRJ-ALTURA"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "contractor_record",
+    "output": {
+     "status": "NOT_IN_GRAPH",
+     "contractor": "Titan Buildtech",
+     "other_projects": 0,
+     "late_or_stalled": [],
+     "on_time_share_pct": null,
+     "court_cases": []
+    },
+    "cypher": [
+     "MATCH (p:Project {id: $id})<-[:BUILDS]-(con:Contractor)\nOPTIONAL MATCH (con)-[:BUILDS]->(o:Project) WHERE o <> p\nOPTIONAL MATCH (k:CourtCase)-[:INVOLVES]->(con)\nWITH con, collect(DISTINCT o {.id, .name, .status, .delay_months, .locality}) AS others,\n     collect(DISTINCT k {.case_no, .court, .nature, .status, .filed}) AS cases\nRETURN con.id AS contractor_id, con.name AS contractor, others, cases"
+    ],
+    "graph": {
+     "nodes": [
+      {
+       "id": "CON-010",
+       "kind": "Contractor",
+       "name": "Titan Buildtech",
+       "flag": false
+      },
+      {
+       "id": "PRJ-ALTURA",
+       "kind": "Project",
+       "name": "Skyvista Altura",
+       "flag": false
+      }
+     ],
+     "edges": [
+      {
+       "src": "CON-010",
+       "dst": "PRJ-ALTURA",
+       "type": "BUILDS"
+      }
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "find_alternatives",
+    "input": {
+     "locality": "Sarjapur Road",
+     "bhk": 3,
+     "budget_max_lakh": 170,
+     "exclude_project_id": "PRJ-ALTURA"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "find_alternatives",
+    "output": {
+     "status": "ANSWERED_WITH_PATH",
+     "criteria": {
+      "locality": "Sarjapur Road",
+      "budget_max_lakh": 170.0,
+      "bhk": 3,
+      "max_risk": 30
+     },
+     "alternatives": [
+      {
+       "id": "PRJ-082",
+       "name": "Greenfield Sarjapur Greens",
+       "locality": "Sarjapur Road",
+       "status": "under_construction",
+       "bhk": [
+        2,
+        3
+       ],
+       "price_min_lakh": 88,
+       "price_max_lakh": 150,
+       "launch_year": 2023,
+       "company": "Greenfield Devanahalli Projects Pvt Ltd",
+       "brand": "Greenfield Habitats",
+       "risk_score": 0.0,
+       "risk_band": "LOW"
+      },
+      {
+       "id": "PRJ-081",
+       "name": "Banyan Grove Whispering Woods",
+       "locality": "Sarjapur Road",
+       "status": "under_construction",
+       "bhk": [
+        2,
+        3
+       ],
+       "price_min_lakh": 92,
+       "price_max_lakh": 158,
+       "launch_year": 2025,
+       "company": "Banyan Habitats III LLP",
+       "brand": "Banyan Grove Developers",
+       "risk_score": 0.0,
+       "risk_band": "LOW"
+      },
+      {
+       "id": "PRJ-083",
+       "name": "Hoysala Lakeside Residency",
+       "locality": "Sarjapur Road",
+       "status": "under_construction",
+       "bhk": [
+        3
+       ],
+       "price_min_lakh": 128,
+       "price_max_lakh": 172,
+       "launch_year": 2024,
+       "company": "Hoysala Hennur Projects Pvt Ltd",
+       "brand": "Hoysala Living",
+       "risk_score": 0.0,
+       "risk_band": "LOW"
+      },
+      {
+       "id": "PRJ-038",
+       "name": "Banyan Courtyard",
+       "locality": "Sarjapur Road",
+       "status": "under_construction",
+       "bhk": [
+        2,
+        3
+       ],
+       "price_min_lakh": 117,
+       "price_max_lakh": 181,
+       "launch_year": 2024,
+       "company": "Banyan Habitats I LLP",
+       "brand": "Banyan Grove Developers",
+       "risk_score": 9.5,
+       "risk_band": "LOW"
+      }
+     ],
+     "considered": 4,
+     "rejected_as_risky": []
+    },
+    "cypher": [
+     "MATCH (p:Project)<-[:DEVELOPS]-(c:Company)\nOPTIONAL MATCH (g:Group)-[:CONTROLS]->(c)\nWITH p, c, g\nWHERE ($locality IS NULL OR toLower(p.locality) CONTAINS toLower($locality))\n  AND ($budget IS NULL OR p.price_min_lakh <= $budget)\n  AND ($bhk IS NULL OR $bhk IN p.bhk)\n  AND ($ids IS NULL OR p.id IN $ids)\n  AND ($include_stalled OR p.status <> 'stalled')\nRETURN p.id AS id, p.name AS name, p.locality AS locality, p.status AS status, p.bhk AS bhk,\n       p.price_min_lakh AS price_min_lakh, p.price_max_lakh AS price_max_lakh,\n       p.launch_year AS launch_year, c.name AS company, g.name AS brand\nORDER BY p.price_min_lakh\nLIMIT $limit",
+     "-- risk scored per project with trace_risk's path query"
+    ],
+    "graph": null
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "record_finding",
+    "input": {
+     "project_id": "PRJ-ALTURA",
+     "verdict": "AVOID",
+     "risk_score": 84.6,
+     "summary": "HIGH risk (84.6). New developer entity shares directors with Northstar Homes group, which has an insolvent company, a struck-off LLP, two stalled projects and a late delivery. Land title is clean (A-khata, no cases).",
+     "evidence": [
+      "Skyvista Altura -> Altura Habitat Pvt Ltd -> director Meera Shetty (Northstar Habitats board 2012-2024) -> Northstar Habitats Pvt Ltd (insolvency) -> NCLT case CP (IB) 214/BB/2024 (pending)",
+      "Altura Habitat Pvt Ltd -> director Rohan Kulkarni (Northstar Lakeside board 2014-2022) -> Northstar Lakeside Developers LLP (struck off) -> Northstar Lake Vista (stalled, 46 months delay)",
+      "Northstar Habitats Pvt Ltd -> Northstar Palm Grove (stalled, 58 months delay) and Northstar Meadows (delivered 30 months late)"
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "record_finding",
+    "output": {
+     "status": "VERIFIED",
+     "recorded": true,
+     "verdict": "AVOID",
+     "risk_score": 84.6,
+     "corrections": []
+    },
+    "cypher": [],
+    "graph": null
+   },
+   {
+    "agent": "investigator",
+    "type": "case_closed",
+    "case_id": "C-8967ba7b",
+    "findings": [
+     {
+      "project_id": "PRJ-ALTURA",
+      "project": "Skyvista Altura",
+      "verdict": "AVOID",
+      "risk_score": 84.6,
+      "summary": "HIGH risk (84.6). New developer entity shares directors with Northstar Homes group, which has an insolvent company, a struck-off LLP, two stalled projects and a late delivery. Land title is clean (A-khata, no cases).",
+      "evidence": [
+       "Skyvista Altura -> Altura Habitat Pvt Ltd -> director Meera Shetty (Northstar Habitats board 2012-2024) -> Northstar Habitats Pvt Ltd (insolvency) -> NCLT case CP (IB) 214/BB/2024 (pending)",
+       "Altura Habitat Pvt Ltd -> director Rohan Kulkarni (Northstar Lakeside board 2014-2022) -> Northstar Lakeside Developers LLP (struck off) -> Northstar Lake Vista (stalled, 46 months delay)",
+       "Northstar Habitats Pvt Ltd -> Northstar Palm Grove (stalled, 58 months delay) and Northstar Meadows (delivered 30 months late)"
+      ]
+     }
+    ],
+    "rejected_drafts": []
+   },
+   {
+    "agent": "concierge",
+    "type": "tool_result",
+    "name": "ask_investigator",
+    "output": {
+     "case_id": "C-8967ba7b",
+     "findings": [
+      {
+       "project_id": "PRJ-ALTURA",
+       "project": "Skyvista Altura",
+       "verdict": "AVOID",
+       "risk_score": 84.6,
+       "summary": "HIGH risk (84.6). New developer entity shares directors with Northstar Homes group, which has an insolvent company, a struck-off LLP, two stalled projects and a late delivery. Land title is clean (A-khata, no cases).",
+       "evidence": [
+        "Skyvista Altura -> Altura Habitat Pvt Ltd -> director Meera Shetty (Northstar Habitats board 2012-2024) -> Northstar Habitats Pvt Ltd (insolvency) -> NCLT case CP (IB) 214/BB/2024 (pending)",
+        "Altura Habitat Pvt Ltd -> director Rohan Kulkarni (Northstar Lakeside board 2014-2022) -> Northstar Lakeside Developers LLP (struck off) -> Northstar Lake Vista (stalled, 46 months delay)",
+        "Northstar Habitats Pvt Ltd -> Northstar Palm Grove (stalled, 58 months delay) and Northstar Meadows (delivered 30 months late)"
+       ]
+      }
+     ],
+     "investigator_report": "**Skyvista Altura (Sarjapur Road): AVOID. Risk score 84.6, HIGH.**\n\n**Surface view**\n- Altura Habitat Pvt Ltd builds it under the Skyvista Builders brand. The company was incorporated in 2025 and is active.\n- It launched in 2026 with 420 units in 4 towers. 2 and 3BHK units are priced at \u20b996\u2013165 lakh, so the 3BHK fits your \u20b9170 lakh budget.\n- Promised possession is 2030, and no delay is recorded because it is only at launch.\n- Approvals: the GBA plan was granted in 2025 and RERA in 2026. The profile lists two different RERA numbers, ending 003319 and 003322, so check which one is correct.\n- It has no complaints. The contractor is Titan Buildtech. The graph holds no other projects or cases for that contractor, so there is no known connection either way.\n- The land is Sy. No. 180/3, Kodathi, 2.0 acres, A-khata. The previous owner was Joseph Hegde, until 2025. No court cases are linked, so no title issue was found in the graph.\n\n**Hidden evidence**\n- Skyvista Altura \u2192 Altura Habitat \u2192 director Meera Shetty (Northstar Habitats board 2012\u20132024) \u2192 Northstar Habitats Pvt Ltd (insolvency) \u2192 NCLT case CP (IB) 214/BB/2024 (pending).\n- Altura Habitat \u2192 director Rohan Kulkarni (Northstar Habitats 2009\u20132024, Northstar Lakeside 2014\u20132022) \u2192 Northstar Lakeside Developers LLP (struck off) \u2192 Northstar Lake Vista (stalled, 46 months late, 22 open complaints).\n- Northstar Habitats \u2192 Northstar Palm Grove (stalled, 58 months late, 29 open complaints). It also built Northstar Meadows, delivered 30 months late.\n- The \"Skyvista\" brand dates from 2025 and shares directors with the Northstar Homes group. The Northstar directorships ended in 2022\u20132024.\n\n**Verify offline**\n- Check the RERA registration and the status of the NCLT case.\n- Ask the developer about the Northstar projects and what it will do to protect buyers' money.\n- Check how the 10:90 payment plan works.\n- Confirm the title independently.\n\n**Lower-risk 3BHK options on Sarjapur Road**\nAll four score between 0 and 9.5, rated LOW.\n- Greenfield Sarjapur Greens: \u20b988\u2013150 lakh.\n- Banyan Grove Whispering Woods: \u20b992\u2013158 lakh.\n- Hoysala Lakeside Residency: \u20b9128\u2013172 lakh. Its top price is slightly above your budget.\n- Banyan Courtyard: \u20b9117\u2013181 lakh. Its top price is also above your budget.\n\nI saved this finding to the case file and it passed verification."
+    },
+    "cypher": [],
+    "graph": null
+   }
+  ],
+  "graph": {
+   "nodes": [
+    {
+     "id": "PRJ-ALTURA",
+     "kind": "Project",
+     "name": "Skyvista Altura",
+     "flag": false
+    },
+    {
+     "id": "CMP-ALTURA",
+     "kind": "Company",
+     "name": "Altura Habitat Pvt Ltd",
+     "flag": false
+    },
+    {
+     "id": "PER-MEERA",
+     "kind": "Person",
+     "name": "Meera Shetty",
+     "flag": false
+    },
+    {
+     "id": "CMP-NORTHSTAR-HAB",
+     "kind": "Company",
+     "name": "Northstar Habitats Pvt Ltd",
+     "flag": true
+    },
+    {
+     "id": "PRJ-NS-PALM",
+     "kind": "Project",
+     "name": "Northstar Palm Grove",
+     "flag": true
+    },
+    {
+     "id": "CRT-NCLT-NORTHSTAR",
+     "kind": "CourtCase",
+     "name": "CP (IB) 214/BB/2024 (insolvency)",
+     "flag": true
+    },
+    {
+     "id": "PRJ-NS-MEADOWS",
+     "kind": "Project",
+     "name": "Northstar Meadows",
+     "flag": true
+    },
+    {
+     "id": "PER-ROHAN",
+     "kind": "Person",
+     "name": "Rohan Kulkarni",
+     "flag": false
+    },
+    {
+     "id": "CMP-NORTHSTAR-LAKE",
+     "kind": "Company",
+     "name": "Northstar Lakeside Developers LLP",
+     "flag": true
+    },
+    {
+     "id": "PRJ-NS-LAKE",
+     "kind": "Project",
+     "name": "Northstar Lake Vista",
+     "flag": true
+    },
+    {
+     "id": "LND-081",
+     "kind": "LandParcel",
+     "name": "Sy. No. 180/3, Kodathi",
+     "flag": false
+    },
+    {
+     "id": "PER-001",
+     "kind": "Person",
+     "name": "Joseph Hegde",
+     "flag": false
+    },
+    {
+     "id": "PER-NIKHIL",
+     "kind": "Person",
+     "name": "Nikhil Bhat",
+     "flag": false
+    },
+    {
+     "id": "PER-ARJUN",
+     "kind": "Person",
+     "name": "Arjun Varma",
+     "flag": false
+    },
+    {
+     "id": "CON-010",
+     "kind": "Contractor",
+     "name": "Titan Buildtech",
+     "flag": false
+    }
+   ],
+   "edges": [
+    {
+     "src": "PRJ-ALTURA",
+     "dst": "CMP-ALTURA",
+     "type": "DEVELOPS",
+     "hot": true
+    },
+    {
+     "src": "CMP-ALTURA",
+     "dst": "PER-MEERA",
+     "type": "DIRECTOR_OF",
+     "hot": true
+    },
+    {
+     "src": "PER-MEERA",
+     "dst": "CMP-NORTHSTAR-HAB",
+     "type": "DIRECTOR_OF",
+     "hot": true
+    },
+    {
+     "src": "CMP-NORTHSTAR-HAB",
+     "dst": "PRJ-NS-PALM",
+     "type": "DEVELOPS",
+     "hot": false
+    },
+    {
+     "src": "CMP-NORTHSTAR-HAB",
+     "dst": "CRT-NCLT-NORTHSTAR",
+     "type": "INVOLVES",
+     "hot": false
+    },
+    {
+     "src": "CMP-NORTHSTAR-HAB",
+     "dst": "PRJ-NS-MEADOWS",
+     "type": "DEVELOPS",
+     "hot": false
+    },
+    {
+     "src": "CMP-ALTURA",
+     "dst": "PER-ROHAN",
+     "type": "DIRECTOR_OF",
+     "hot": false
+    },
+    {
+     "src": "PER-ROHAN",
+     "dst": "CMP-NORTHSTAR-LAKE",
+     "type": "DIRECTOR_OF",
+     "hot": false
+    },
+    {
+     "src": "CMP-NORTHSTAR-LAKE",
+     "dst": "PRJ-NS-LAKE",
+     "type": "DEVELOPS",
+     "hot": false
+    },
+    {
+     "src": "PRJ-ALTURA",
+     "dst": "LND-081",
+     "type": "BUILT_ON"
+    },
+    {
+     "src": "LND-081",
+     "dst": "PER-001",
+     "type": "PREVIOUSLY_OWNED_BY"
+    },
+    {
+     "src": "CMP-ALTURA",
+     "dst": "PRJ-ALTURA",
+     "type": "DEVELOPS"
+    },
+    {
+     "src": "PER-ROHAN",
+     "dst": "CMP-ALTURA",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-MEERA",
+     "dst": "CMP-ALTURA",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-NIKHIL",
+     "dst": "CMP-ALTURA",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-ROHAN",
+     "dst": "CMP-NORTHSTAR-HAB",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-ARJUN",
+     "dst": "CMP-NORTHSTAR-HAB",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-ARJUN",
+     "dst": "CMP-NORTHSTAR-LAKE",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "CON-010",
+     "dst": "PRJ-ALTURA",
+     "type": "BUILDS"
+    }
+   ]
+  },
+  "usage": {
+   "input": 15819,
+   "output": 2995
+  }
+ },
+ "recorded_at": "2026-10-18 20:46",
+ "models": {
+  "concierge": "claude-haiku-5-5",
+  "investigator": "claude-sonnet-5-5"
+ }
+}

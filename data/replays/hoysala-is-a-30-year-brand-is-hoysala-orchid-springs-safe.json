@@ -1,0 +1,1264 @@
+{
+ "kind": "ask",
+ "question": "Hoysala is a 30-year brand. Is Hoysala Orchid Springs safe?",
+ "result": {
+  "text": "**Caution: Hoysala Orchid Springs has medium graph risk (42.7/100, CAUTION). The risk sits mainly with its contractor, not the developer.**\n\n- **Contractor record:** Monsoon Infra Contractors, the project's contractor, delivered Chalukya Pearl Residency 26 months late, Mallige Sunrise Heights 22 months late and Lakeshore Tranquil Bay 18 months late. Its on-time share is 0%.\n- **Court case:** C.C. 3381/2025, a cheque-bounce case at the Bengaluru Magistrate Court filed in 2025, is listed as pending against Monsoon Infra.\n- **Developer group:** Hoysala Yelahanka Projects Pvt Ltd shows no failed companies, stalled projects or court cases. The land (Sy. No. 36/6, Hagadur, A-khata) shows no title issues. Approvals (BBMP plan, RERA, CC) are granted.\n- **\"30-year brand\":** The graph records the Hoysala Living brand from 1996. The developing company was incorporated in 2022, so the age claim applies to the group, not this entity.\n\n**Next step:** Before paying anything, ask the builder for the status of the cheque-bounce case, whether the agreement has delay penalties and a contractor-change clause, and which RERA number applies, since the brochure and approvals list differ. I can also search for alternatives once you share your budget, BHK and preferred localities.",
+  "events": [
+   {
+    "agent": "concierge",
+    "type": "thought",
+    "text": "This is a question about a project and developer, so I'll delegate it to the Investigator."
+   },
+   {
+    "agent": "concierge",
+    "type": "tool_call",
+    "name": "ask_investigator",
+    "input": {
+     "question": "Is Hoysala Orchid Springs safe to buy? Report the project's graph risk score and level, the developer's track record (including any director history, litigation, delays, stalled status, land title issues, or contractor concerns), and any evidence that bears on the claim that Hoysala is a 30-year brand. Include dates and qualifiers such as 'former' or 'as of'. The buyer is in Bangalore, session #1, no budget, BHK or locality preferences recorded yet."
+    }
+   },
+   {
+    "agent": "concierge",
+    "type": "handoff",
+    "case_id": "C-e040fad4",
+    "question": "Is Hoysala Orchid Springs safe to buy? Report the project's graph risk score and level, the developer's track record (including any director history, litigation, delays, stalled status, land title issues, or contractor concerns), and any evidence that bears on the claim that Hoysala is a 30-year brand. Include dates and qualifiers such as 'former' or 'as of'. The buyer is in Bangalore, session #1, no budget, BHK or locality preferences recorded yet.",
+    "brief": "No stored preferences yet."
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "search_projects",
+    "input": {
+     "name": "Hoysala Orchid Springs",
+     "include_stalled": true
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "search_projects",
+    "output": {
+     "status": "ANSWERED_WITH_PATH",
+     "projects": [
+      {
+       "id": "PRJ-ORCHID",
+       "name": "Hoysala Orchid Springs",
+       "locality": "Whitefield",
+       "status": "under_construction",
+       "bhk": [
+        3,
+        4
+       ],
+       "price_min_lakh": 162,
+       "price_max_lakh": 290,
+       "launch_year": 2024,
+       "company": "Hoysala Yelahanka Projects Pvt Ltd",
+       "brand": "Hoysala Living",
+       "risk_score": 42.7,
+       "risk_band": "MEDIUM"
+      }
+     ],
+     "count": 1
+    },
+    "cypher": [
+     "CALL db.idx.fulltext.queryNodes('Project', 'Hoysala* Orchid* Springs*') YIELD node RETURN node.id AS id LIMIT 10",
+     "MATCH (p:Project)<-[:DEVELOPS]-(c:Company)\nOPTIONAL MATCH (g:Group)-[:CONTROLS]->(c)\nWITH p, c, g\nWHERE ($locality IS NULL OR toLower(p.locality) CONTAINS toLower($locality))\n  AND ($budget IS NULL OR p.price_min_lakh <= $budget)\n  AND ($bhk IS NULL OR $bhk IN p.bhk)\n  AND ($ids IS NULL OR p.id IN $ids)\n  AND ($include_stalled OR p.status <> 'stalled')\nRETURN p.id AS id, p.name AS name, p.locality AS locality, p.status AS status, p.bhk AS bhk,\n       p.price_min_lakh AS price_min_lakh, p.price_max_lakh AS price_max_lakh,\n       p.launch_year AS launch_year, c.name AS company, g.name AS brand\nORDER BY p.price_min_lakh\nLIMIT $limit",
+     "-- risk scored per project with trace_risk's path query"
+    ],
+    "graph": null
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "recall_findings",
+    "input": {
+     "project_id": "PRJ-ORCHID"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "recall_findings",
+    "output": {
+     "status": "NOT_IN_GRAPH",
+     "message": "No earlier finding about this project in the buyer's memory."
+    },
+    "cypher": [],
+    "graph": null
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "project_profile",
+    "input": {
+     "project_id": "PRJ-ORCHID"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "project_profile",
+    "output": {
+     "status": "ANSWERED_WITH_PATH",
+     "project": {
+      "bhk": [
+       3,
+       4
+      ],
+      "delay_months": 0,
+      "highlights": "Premium low-density, 3 & 4 BHK, by a 30-year brand",
+      "id": "PRJ-ORCHID",
+      "launch_year": 2024,
+      "locality": "Whitefield",
+      "name": "Hoysala Orchid Springs",
+      "price_max_lakh": 290,
+      "price_min_lakh": 162,
+      "promised_possession": 2028,
+      "rera_id": "PRM/KA/RERA/1251/398/PR/240224/003372",
+      "status": "under_construction",
+      "units": 260
+     },
+     "company": "Hoysala Yelahanka Projects Pvt Ltd",
+     "company_status": "active",
+     "incorporated": 2022,
+     "brand": "Hoysala Living",
+     "brand_since": 1996,
+     "directors": [
+      "Shruti Shenoy",
+      "Swathi Joshi",
+      "Tejas Reddy"
+     ],
+     "land": "Sy. No. 36/6, Hagadur",
+     "khata": "A",
+     "acres": 5.4,
+     "contractor": "Monsoon Infra Contractors",
+     "lender": null,
+     "approvals": [
+      {
+       "type": "BBMP plan",
+       "status": "granted",
+       "year": 2023,
+       "ref": null
+      },
+      {
+       "type": "RERA",
+       "status": "granted",
+       "year": 2024,
+       "ref": "PRM/KA/RERA/1251/464/PR/241105/003383"
+      },
+      {
+       "type": "CC",
+       "status": "granted",
+       "year": 2024,
+       "ref": null
+      }
+     ],
+     "complaints": {
+      "open": 0,
+      "resolved": 0,
+      "by_category": []
+     }
+    },
+    "cypher": [
+     "MATCH (p:Project {id: $id})<-[:DEVELOPS]-(c:Company)\nOPTIONAL MATCH (g:Group)-[:CONTROLS]->(c)\nOPTIONAL MATCH (d:Person)-[dir:DIRECTOR_OF]->(c)\nOPTIONAL MATCH (p)-[:BUILT_ON]->(l:LandParcel)\nOPTIONAL MATCH (con:Contractor)-[:BUILDS]->(p)\nOPTIONAL MATCH (len:Lender)-[:FINANCES]->(p)\nRETURN p {.*} AS project, c.name AS company, c.status AS company_status, c.incorporated AS incorporated,\n       g.name AS brand, g.brand_since AS brand_since,\n       collect(DISTINCT d.name) AS directors, l.name AS land, l.khata AS khata, l.acres AS acres,\n       con.name AS contractor, len.name AS lender",
+     "MATCH (p:Project {id: $id})-[:HAS_APPROVAL]->(a:Approval)\nRETURN a.type AS type, a.status AS status, a.year AS year, a.ref AS ref ORDER BY a.year",
+     "MATCH (p:Project {id: $id})<-[:AGAINST]-(c:Complaint)\nRETURN c.status AS status, c.category AS category, count(c) AS n"
+    ],
+    "graph": null
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "trace_risk",
+    "input": {
+     "project_id": "PRJ-ORCHID"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "trace_risk",
+    "output": {
+     "project_id": "PRJ-ORCHID",
+     "project": "Hoysala Orchid Springs",
+     "truncated": false,
+     "direct_flags": [],
+     "risk_score": 42.7,
+     "band": "MEDIUM",
+     "katz_K": 0.557,
+     "n_flags": 4,
+     "n_paths": 4,
+     "by_flag_kind": {
+      "Project": 0.422,
+      "CourtCase": 0.135
+     },
+     "top_evidence": [
+      {
+       "flag_id": "PRJ-079",
+       "flag_kind": "Project",
+       "flag_name": "Chalukya Pearl Residency",
+       "reason": "Delivered/running 26 months late",
+       "severity": 0.55,
+       "created_at": 1792022400,
+       "contribution": 0.186,
+       "n_paths": 1,
+       "min_hops": 2,
+       "share_pct": 33.4,
+       "path_text": "Hoysala Orchid Springs -[BUILDS]- Monsoon Infra Contractors -[BUILDS]- Chalukya Pearl Residency"
+      },
+      {
+       "flag_id": "CRT-MONSOON",
+       "flag_kind": "CourtCase",
+       "flag_name": "C.C. 3381/2025 (cheque bounce)",
+       "reason": "Pending cheque bounce case in Magistrate Court, Bengaluru",
+       "severity": 0.3,
+       "created_at": 1792022400,
+       "contribution": 0.135,
+       "n_paths": 1,
+       "min_hops": 2,
+       "share_pct": 24.2,
+       "path_text": "Hoysala Orchid Springs -[BUILDS]- Monsoon Infra Contractors -[INVOLVES]- C.C. 3381/2025 (cheque bounce)"
+      },
+      {
+       "flag_id": "PRJ-080",
+       "flag_kind": "Project",
+       "flag_name": "Lakeshore Tranquil Bay",
+       "reason": "Running 18 months late",
+       "severity": 0.35,
+       "created_at": 1792022400,
+       "contribution": 0.118,
+       "n_paths": 1,
+       "min_hops": 2,
+       "share_pct": 21.2,
+       "path_text": "Hoysala Orchid Springs -[BUILDS]- Monsoon Infra Contractors -[BUILDS]- Lakeshore Tranquil Bay"
+      },
+      {
+       "flag_id": "PRJ-078",
+       "flag_kind": "Project",
+       "flag_name": "Mallige Sunrise Heights",
+       "reason": "Running 22 months late",
+       "severity": 0.35,
+       "created_at": 1792022400,
+       "contribution": 0.118,
+       "n_paths": 1,
+       "min_hops": 2,
+       "share_pct": 21.2,
+       "path_text": "Hoysala Orchid Springs -[BUILDS]- Monsoon Infra Contractors -[BUILDS]- Mallige Sunrise Heights"
+      }
+     ],
+     "model": {
+      "beta": 0.6,
+      "max_hops": 4
+     },
+     "status": "ANSWERED_WITH_PATH",
+     "how_to_read": "risk_score 0-100 = 100*(1-exp(-K)); K sums severity * 0.6^(hops-1) * edge weights over every path to a red flag within 4 hops. share_pct = share of K from that flag; n_paths = how many distinct paths reach it."
+    },
+    "cypher": [
+     "MATCH path = (p:Project {id: $id})-[:DEVELOPS|DIRECTOR_OF|CONTROLS|BUILT_ON|PREVIOUSLY_OWNED_BY|INVOLVES|AGAINST|HAS_APPROVAL|BUILDS*1..4]-(f:RedFlag)\nWHERE f <> p\n  AND none(n IN nodes(path)[1..-1] WHERE n.kind = 'Project')\n  AND size([r IN relationships(path) WHERE type(r) = 'PREVIOUSLY_OWNED_BY']) <= 1\nRETURN f.id AS flag_id, f.kind AS flag_kind, f.name AS flag_name, f.reason AS reason,\n       f.severity AS severity, f.created_at AS created_at, length(path) AS hops,\n       [n IN nodes(path) | {id: n.id, kind: n.kind, name: n.name}] AS nodes,\n       [r IN relationships(path) | type(r)] AS rels\nLIMIT 2001"
+    ],
+    "graph": {
+     "nodes": [
+      {
+       "id": "PRJ-ORCHID",
+       "kind": "Project",
+       "name": "Hoysala Orchid Springs",
+       "flag": false
+      },
+      {
+       "id": "CON-MONSOON",
+       "kind": "Contractor",
+       "name": "Monsoon Infra Contractors",
+       "flag": false
+      },
+      {
+       "id": "PRJ-079",
+       "kind": "Project",
+       "name": "Chalukya Pearl Residency",
+       "flag": true
+      },
+      {
+       "id": "CRT-MONSOON",
+       "kind": "CourtCase",
+       "name": "C.C. 3381/2025 (cheque bounce)",
+       "flag": true
+      },
+      {
+       "id": "PRJ-080",
+       "kind": "Project",
+       "name": "Lakeshore Tranquil Bay",
+       "flag": true
+      },
+      {
+       "id": "PRJ-078",
+       "kind": "Project",
+       "name": "Mallige Sunrise Heights",
+       "flag": true
+      }
+     ],
+     "edges": [
+      {
+       "src": "PRJ-ORCHID",
+       "dst": "CON-MONSOON",
+       "type": "BUILDS",
+       "hot": true
+      },
+      {
+       "src": "CON-MONSOON",
+       "dst": "PRJ-079",
+       "type": "BUILDS",
+       "hot": true
+      },
+      {
+       "src": "CON-MONSOON",
+       "dst": "CRT-MONSOON",
+       "type": "INVOLVES",
+       "hot": false
+      },
+      {
+       "src": "CON-MONSOON",
+       "dst": "PRJ-080",
+       "type": "BUILDS",
+       "hot": false
+      },
+      {
+       "src": "CON-MONSOON",
+       "dst": "PRJ-078",
+       "type": "BUILDS",
+       "hot": false
+      }
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "developer_network",
+    "input": {
+     "project_id": "PRJ-ORCHID"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "developer_network",
+    "output": {
+     "status": "ANSWERED_WITH_PATH",
+     "developer": "Hoysala Yelahanka Projects Pvt Ltd",
+     "group_size": {
+      "companies": 3,
+      "people": 3
+     },
+     "brands_in_group": [
+      "Hoysala Living"
+     ],
+     "failed_companies": [],
+     "bridging_directors": {
+      "Tejas Reddy": [
+       "Hoysala Yelahanka Projects Pvt Ltd (2005-now)",
+       "Hoysala Sarjapur Projects Pvt Ltd (2005-now)",
+       "Hoysala Hennur Projects Pvt Ltd (2015-now)"
+      ],
+      "Swathi Joshi": [
+       "Hoysala Yelahanka Projects Pvt Ltd (2011-now)",
+       "Hoysala Sarjapur Projects Pvt Ltd (2012-now)",
+       "Hoysala Hennur Projects Pvt Ltd (2000-now)"
+      ],
+      "Shruti Shenoy": [
+       "Hoysala Yelahanka Projects Pvt Ltd (2022-now)",
+       "Hoysala Hennur Projects Pvt Ltd (2017-now)"
+      ]
+     },
+     "companies": [
+      {
+       "company_id": "CMP-028",
+       "company": "Hoysala Yelahanka Projects Pvt Ltd",
+       "company_status": "active",
+       "brand": "Hoysala Living",
+       "projects": [
+        {
+         "id": "PRJ-049",
+         "name": "Hoysala Meadows",
+         "status": "under_construction",
+         "delay_months": 0,
+         "open_complaints": 0
+        },
+        {
+         "id": "PRJ-051",
+         "name": "Hoysala Haven",
+         "status": "under_construction",
+         "delay_months": 1,
+         "open_complaints": 0
+        },
+        {
+         "id": "PRJ-ORCHID",
+         "name": "Hoysala Orchid Springs",
+         "status": "under_construction",
+         "delay_months": 0,
+         "open_complaints": 0
+        },
+        {
+         "id": "PRJ-050",
+         "name": "Hoysala Heights",
+         "status": "delivered",
+         "delay_months": 3,
+         "open_complaints": 0
+        }
+       ]
+      },
+      {
+       "company_id": "CMP-030",
+       "company": "Hoysala Hennur Projects Pvt Ltd",
+       "company_status": "active",
+       "brand": "Hoysala Living",
+       "projects": [
+        {
+         "id": "PRJ-083",
+         "name": "Hoysala Lakeside Residency",
+         "status": "under_construction",
+         "delay_months": 0,
+         "open_complaints": 0
+        },
+        {
+         "id": "PRJ-055",
+         "name": "Hoysala Nest",
+         "status": "under_construction",
+         "delay_months": 0,
+         "open_complaints": 0
+        },
+        {
+         "id": "PRJ-054",
+         "name": "Hoysala Gardens",
+         "status": "delivered",
+         "delay_months": 0,
+         "open_complaints": 0
+        }
+       ]
+      },
+      {
+       "company_id": "CMP-029",
+       "company": "Hoysala Sarjapur Projects Pvt Ltd",
+       "company_status": "active",
+       "brand": "Hoysala Living",
+       "projects": [
+        {
+         "id": "PRJ-052",
+         "name": "Hoysala Residency",
+         "status": "under_construction",
+         "delay_months": 0,
+         "open_complaints": 0
+        },
+        {
+         "id": "PRJ-053",
+         "name": "Hoysala Orchid",
+         "status": "delivered",
+         "delay_months": 0,
+         "open_complaints": 0
+        }
+       ]
+      }
+     ],
+     "court_cases": [],
+     "algorithm": "algo.WCC on (:Person)-[:DIRECTOR_OF]->(:Company)"
+    },
+    "cypher": [
+     "CALL algo.WCC({nodeLabels: ['Person', 'Company'], relationshipTypes: ['DIRECTOR_OF']})\nYIELD node, componentId\nRETURN node.id AS id, componentId AS component",
+     "MATCH (c:Company) WHERE c.id IN $company_ids\nOPTIONAL MATCH (g:Group)-[:CONTROLS]->(c)\nOPTIONAL MATCH (c)-[:DEVELOPS]->(p:Project)\nOPTIONAL MATCH (p)<-[:AGAINST]-(cp:Complaint {status: 'open'})\nWITH c, g, p, count(cp) AS open_complaints\nRETURN c.id AS company_id, c.name AS company, c.status AS company_status, g.name AS brand,\n       collect(CASE WHEN p IS NULL THEN NULL ELSE {id: p.id, name: p.name, status: p.status,\n               delay_months: p.delay_months, open_complaints: open_complaints} END) AS projects",
+     "MATCH (d:Person)-[r:DIRECTOR_OF]->(c:Company)\nWHERE c.id IN $company_ids\nRETURN d.id AS person_id, d.name AS person, c.id AS company_id, c.name AS company,\n       r.since AS since, r.until AS until",
+     "MATCH (k:CourtCase)-[:INVOLVES]->(c:Company) WHERE c.id IN $company_ids\nRETURN c.name AS company, k.case_no AS case_no, k.court AS court, k.nature AS nature, k.status AS status"
+    ],
+    "graph": {
+     "nodes": [
+      {
+       "id": "CMP-028",
+       "kind": "Company",
+       "name": "Hoysala Yelahanka Projects Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "PRJ-049",
+       "kind": "Project",
+       "name": "Hoysala Meadows",
+       "flag": false
+      },
+      {
+       "id": "PRJ-051",
+       "kind": "Project",
+       "name": "Hoysala Haven",
+       "flag": false
+      },
+      {
+       "id": "PRJ-ORCHID",
+       "kind": "Project",
+       "name": "Hoysala Orchid Springs",
+       "flag": false
+      },
+      {
+       "id": "PRJ-050",
+       "kind": "Project",
+       "name": "Hoysala Heights",
+       "flag": false
+      },
+      {
+       "id": "CMP-030",
+       "kind": "Company",
+       "name": "Hoysala Hennur Projects Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "CMP-029",
+       "kind": "Company",
+       "name": "Hoysala Sarjapur Projects Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "PER-078",
+       "kind": "Person",
+       "name": "Tejas Reddy",
+       "flag": false
+      },
+      {
+       "id": "PER-079",
+       "kind": "Person",
+       "name": "Swathi Joshi",
+       "flag": false
+      },
+      {
+       "id": "PER-080",
+       "kind": "Person",
+       "name": "Shruti Shenoy",
+       "flag": false
+      }
+     ],
+     "edges": [
+      {
+       "src": "CMP-028",
+       "dst": "PRJ-049",
+       "type": "DEVELOPS"
+      },
+      {
+       "src": "CMP-028",
+       "dst": "PRJ-051",
+       "type": "DEVELOPS"
+      },
+      {
+       "src": "CMP-028",
+       "dst": "PRJ-ORCHID",
+       "type": "DEVELOPS"
+      },
+      {
+       "src": "CMP-028",
+       "dst": "PRJ-050",
+       "type": "DEVELOPS"
+      },
+      {
+       "src": "PER-078",
+       "dst": "CMP-028",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-079",
+       "dst": "CMP-028",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-080",
+       "dst": "CMP-028",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-078",
+       "dst": "CMP-029",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-079",
+       "dst": "CMP-029",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-078",
+       "dst": "CMP-030",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-079",
+       "dst": "CMP-030",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-080",
+       "dst": "CMP-030",
+       "type": "DIRECTOR_OF"
+      }
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "key_people",
+    "input": {
+     "project_id": "PRJ-ORCHID"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "key_people",
+    "output": {
+     "status": "ANSWERED_WITH_PATH",
+     "directors": [
+      {
+       "name": "Tejas Reddy",
+       "betweenness": 1.5,
+       "rank_among_all_directors": 20,
+       "total_ranked_directors": 30,
+       "companies": 3,
+       "brands": [
+        "Hoysala Living"
+       ],
+       "failed_companies": [],
+       "boards": [
+        {
+         "company": "Hoysala Yelahanka Projects Pvt Ltd",
+         "status": "active",
+         "brand": "Hoysala Living",
+         "since": 2005,
+         "until": null
+        },
+        {
+         "company": "Hoysala Sarjapur Projects Pvt Ltd",
+         "status": "active",
+         "brand": "Hoysala Living",
+         "since": 2005,
+         "until": null
+        },
+        {
+         "company": "Hoysala Hennur Projects Pvt Ltd",
+         "status": "active",
+         "brand": "Hoysala Living",
+         "since": 2015,
+         "until": null
+        }
+       ]
+      },
+      {
+       "name": "Swathi Joshi",
+       "betweenness": 1.5,
+       "rank_among_all_directors": 21,
+       "total_ranked_directors": 30,
+       "companies": 3,
+       "brands": [
+        "Hoysala Living"
+       ],
+       "failed_companies": [],
+       "boards": [
+        {
+         "company": "Hoysala Yelahanka Projects Pvt Ltd",
+         "status": "active",
+         "brand": "Hoysala Living",
+         "since": 2011,
+         "until": null
+        },
+        {
+         "company": "Hoysala Sarjapur Projects Pvt Ltd",
+         "status": "active",
+         "brand": "Hoysala Living",
+         "since": 2012,
+         "until": null
+        },
+        {
+         "company": "Hoysala Hennur Projects Pvt Ltd",
+         "status": "active",
+         "brand": "Hoysala Living",
+         "since": 2000,
+         "until": null
+        }
+       ]
+      },
+      {
+       "name": "Shruti Shenoy",
+       "betweenness": 0.0,
+       "rank_among_all_directors": null,
+       "total_ranked_directors": 30,
+       "companies": 2,
+       "brands": [
+        "Hoysala Living"
+       ],
+       "failed_companies": [],
+       "boards": [
+        {
+         "company": "Hoysala Yelahanka Projects Pvt Ltd",
+         "status": "active",
+         "brand": "Hoysala Living",
+         "since": 2022,
+         "until": null
+        },
+        {
+         "company": "Hoysala Hennur Projects Pvt Ltd",
+         "status": "active",
+         "brand": "Hoysala Living",
+         "since": 2017,
+         "until": null
+        }
+       ]
+      }
+     ],
+     "algorithm": "algo.betweenness on the Person-Company directorship network (both edge directions)"
+    },
+    "cypher": [
+     "CALL algo.betweenness({nodeLabels: ['Person', 'Company'], relationshipTypes: ['DIRECTOR_OF', 'HAS_DIRECTOR']})\nYIELD node, score\nWITH node, score WHERE node.kind = 'Person' AND score > 0\nRETURN node.id AS id, node.name AS name, score\nORDER BY score DESC",
+     "MATCH (d:Person)-[r:DIRECTOR_OF]->(c:Company) WHERE d.id IN $ids\nOPTIONAL MATCH (g:Group)-[:CONTROLS]->(c)\nRETURN d.id AS id, collect({company_id: c.id, company: c.name, status: c.status, brand: g.name,\n                             since: r.since, until: r.until}) AS boards"
+    ],
+    "graph": {
+     "nodes": [
+      {
+       "id": "PER-078",
+       "kind": "Person",
+       "name": "Tejas Reddy",
+       "flag": false
+      },
+      {
+       "id": "CMP-028",
+       "kind": "Company",
+       "name": "Hoysala Yelahanka Projects Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "CMP-029",
+       "kind": "Company",
+       "name": "Hoysala Sarjapur Projects Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "CMP-030",
+       "kind": "Company",
+       "name": "Hoysala Hennur Projects Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "PER-079",
+       "kind": "Person",
+       "name": "Swathi Joshi",
+       "flag": false
+      },
+      {
+       "id": "PER-080",
+       "kind": "Person",
+       "name": "Shruti Shenoy",
+       "flag": false
+      }
+     ],
+     "edges": [
+      {
+       "src": "PER-078",
+       "dst": "CMP-028",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-078",
+       "dst": "CMP-029",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-078",
+       "dst": "CMP-030",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-079",
+       "dst": "CMP-028",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-079",
+       "dst": "CMP-029",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-079",
+       "dst": "CMP-030",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-080",
+       "dst": "CMP-028",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-080",
+       "dst": "CMP-030",
+       "type": "DIRECTOR_OF"
+      }
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "land_title_check",
+    "input": {
+     "project_id": "PRJ-ORCHID"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "land_title_check",
+    "output": {
+     "status": "NOT_IN_GRAPH",
+     "project": "Hoysala Orchid Springs",
+     "land": "Sy. No. 36/6, Hagadur",
+     "khata": "A",
+     "acres": 5.4,
+     "previous_owner": "Thomas Gowda",
+     "owner_kind": "Person",
+     "owned_until": 2023,
+     "court_cases": [],
+     "verdict": "No title issues found"
+    },
+    "cypher": [
+     "MATCH (p:Project {id: $id})-[b:BUILT_ON]->(l:LandParcel)\nOPTIONAL MATCH (l)-[po:PREVIOUSLY_OWNED_BY]->(o)\nOPTIONAL MATCH (k:CourtCase)-[:INVOLVES]->(x) WHERE x = l OR x = o\nRETURN p.name AS project, l.id AS land_id, l.name AS land, l.khata AS khata, l.acres AS acres,\n       o.id AS owner_id, o.name AS previous_owner, o.kind AS owner_kind, po.until AS owned_until,\n       collect(DISTINCT CASE WHEN k IS NULL THEN NULL ELSE\n           {id: k.id, case_no: k.case_no, court: k.court, nature: k.nature, status: k.status,\n            filed: k.filed, parties: k.parties, involves: x.name} END) AS cases"
+    ],
+    "graph": {
+     "nodes": [
+      {
+       "id": "PRJ-ORCHID",
+       "kind": "Project",
+       "name": "Hoysala Orchid Springs",
+       "flag": false
+      },
+      {
+       "id": "LND-083",
+       "kind": "LandParcel",
+       "name": "Sy. No. 36/6, Hagadur",
+       "flag": false
+      },
+      {
+       "id": "PER-025",
+       "kind": "Person",
+       "name": "Thomas Gowda",
+       "flag": false
+      }
+     ],
+     "edges": [
+      {
+       "src": "PRJ-ORCHID",
+       "dst": "LND-083",
+       "type": "BUILT_ON"
+      },
+      {
+       "src": "LND-083",
+       "dst": "PER-025",
+       "type": "PREVIOUSLY_OWNED_BY"
+      }
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "contractor_record",
+    "input": {
+     "project_id": "PRJ-ORCHID"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "contractor_record",
+    "output": {
+     "status": "ANSWERED_WITH_PATH",
+     "contractor": "Monsoon Infra Contractors",
+     "other_projects": 3,
+     "late_or_stalled": [
+      {
+       "name": "Mallige Sunrise Heights",
+       "status": "under_construction",
+       "delay_months": 22,
+       "locality": "Varthur"
+      },
+      {
+       "name": "Chalukya Pearl Residency",
+       "status": "under_construction",
+       "delay_months": 26,
+       "locality": "Kanakapura Road"
+      },
+      {
+       "name": "Lakeshore Tranquil Bay",
+       "status": "under_construction",
+       "delay_months": 18,
+       "locality": "Hennur"
+      }
+     ],
+     "on_time_share_pct": 0.0,
+     "court_cases": [
+      {
+       "case_no": "C.C. 3381/2025",
+       "court": "Magistrate Court, Bengaluru",
+       "filed": 2025,
+       "nature": "cheque_bounce",
+       "status": "pending"
+      }
+     ]
+    },
+    "cypher": [
+     "MATCH (p:Project {id: $id})<-[:BUILDS]-(con:Contractor)\nOPTIONAL MATCH (con)-[:BUILDS]->(o:Project) WHERE o <> p\nOPTIONAL MATCH (k:CourtCase)-[:INVOLVES]->(con)\nWITH con, collect(DISTINCT o {.id, .name, .status, .delay_months, .locality}) AS others,\n     collect(DISTINCT k {.case_no, .court, .nature, .status, .filed}) AS cases\nRETURN con.id AS contractor_id, con.name AS contractor, others, cases"
+    ],
+    "graph": {
+     "nodes": [
+      {
+       "id": "CON-MONSOON",
+       "kind": "Contractor",
+       "name": "Monsoon Infra Contractors",
+       "flag": true
+      },
+      {
+       "id": "PRJ-ORCHID",
+       "kind": "Project",
+       "name": "Hoysala Orchid Springs",
+       "flag": false
+      },
+      {
+       "id": "PRJ-078",
+       "kind": "Project",
+       "name": "Mallige Sunrise Heights",
+       "flag": true
+      },
+      {
+       "id": "PRJ-079",
+       "kind": "Project",
+       "name": "Chalukya Pearl Residency",
+       "flag": true
+      },
+      {
+       "id": "PRJ-080",
+       "kind": "Project",
+       "name": "Lakeshore Tranquil Bay",
+       "flag": true
+      }
+     ],
+     "edges": [
+      {
+       "src": "CON-MONSOON",
+       "dst": "PRJ-ORCHID",
+       "type": "BUILDS"
+      },
+      {
+       "src": "CON-MONSOON",
+       "dst": "PRJ-078",
+       "type": "BUILDS"
+      },
+      {
+       "src": "CON-MONSOON",
+       "dst": "PRJ-079",
+       "type": "BUILDS"
+      },
+      {
+       "src": "CON-MONSOON",
+       "dst": "PRJ-080",
+       "type": "BUILDS"
+      }
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "record_finding",
+    "input": {
+     "project_id": "PRJ-ORCHID",
+     "verdict": "CAUTION",
+     "risk_score": 42.7,
+     "summary": "Medium graph risk (42.7). Developer group is clean, with no failed companies or court cases and an A-khata plot with no title issues. The risk comes from the contractor, Monsoon Infra Contractors, which has three late projects and a pending cheque-bounce case.",
+     "evidence": [
+      "Hoysala Orchid Springs -> Monsoon Infra Contractors -> Chalukya Pearl Residency (26 months late)",
+      "Hoysala Orchid Springs -> Monsoon Infra Contractors -> C.C. 3381/2025 cheque bounce (pending, filed 2025)",
+      "Hoysala Orchid Springs -> Monsoon Infra Contractors -> Mallige Sunrise Heights (22 months late) and Lakeshore Tranquil Bay (18 months late)"
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "record_finding",
+    "output": {
+     "status": "VERIFIED",
+     "recorded": true,
+     "verdict": "CAUTION",
+     "risk_score": 42.7,
+     "corrections": []
+    },
+    "cypher": [],
+    "graph": null
+   },
+   {
+    "agent": "investigator",
+    "type": "case_closed",
+    "case_id": "C-e040fad4",
+    "findings": [
+     {
+      "project_id": "PRJ-ORCHID",
+      "project": "Hoysala Orchid Springs",
+      "verdict": "CAUTION",
+      "risk_score": 42.7,
+      "summary": "Medium graph risk (42.7). Developer group is clean, with no failed companies or court cases and an A-khata plot with no title issues. The risk comes from the contractor, Monsoon Infra Contractors, which has three late projects and a pending cheque-bounce case.",
+      "evidence": [
+       "Hoysala Orchid Springs -> Monsoon Infra Contractors -> Chalukya Pearl Residency (26 months late)",
+       "Hoysala Orchid Springs -> Monsoon Infra Contractors -> C.C. 3381/2025 cheque bounce (pending, filed 2025)",
+       "Hoysala Orchid Springs -> Monsoon Infra Contractors -> Mallige Sunrise Heights (22 months late) and Lakeshore Tranquil Bay (18 months late)"
+      ]
+     }
+    ],
+    "rejected_drafts": []
+   },
+   {
+    "agent": "concierge",
+    "type": "tool_result",
+    "name": "ask_investigator",
+    "output": {
+     "case_id": "C-e040fad4",
+     "findings": [
+      {
+       "project_id": "PRJ-ORCHID",
+       "project": "Hoysala Orchid Springs",
+       "verdict": "CAUTION",
+       "risk_score": 42.7,
+       "summary": "Medium graph risk (42.7). Developer group is clean, with no failed companies or court cases and an A-khata plot with no title issues. The risk comes from the contractor, Monsoon Infra Contractors, which has three late projects and a pending cheque-bounce case.",
+       "evidence": [
+        "Hoysala Orchid Springs -> Monsoon Infra Contractors -> Chalukya Pearl Residency (26 months late)",
+        "Hoysala Orchid Springs -> Monsoon Infra Contractors -> C.C. 3381/2025 cheque bounce (pending, filed 2025)",
+        "Hoysala Orchid Springs -> Monsoon Infra Contractors -> Mallige Sunrise Heights (22 months late) and Lakeshore Tranquil Bay (18 months late)"
+       ]
+      }
+     ],
+     "investigator_report": "**Hoysala Orchid Springs (Whitefield): CAUTION. Graph risk score is 42.7, which is MEDIUM.**\n\n**Surface view:** The project is under construction, with 3 and 4 BHK units at \u20b9162\u2013290 lakh. It launched in 2024 and promises possession in 2028. It has 0 months of delay and no complaints. The BBMP plan (2023), RERA (2024) and CC (2024) approvals are all granted. The plot is A-khata.\n\n**Hidden evidence (all of the risk comes from the contractor):**\n- Hoysala Orchid Springs -> Monsoon Infra Contractors -> Chalukya Pearl Residency (26 months late).\n- Monsoon Infra Contractors -> Mallige Sunrise Heights (22 months late) and Lakeshore Tranquil Bay (18 months late).\n- Monsoon Infra Contractors -> C.C. 3381/2025, a cheque-bounce case in Magistrate Court, Bengaluru. It was filed in 2025 and is pending.\n- Monsoon Infra Contractors' other three projects are all late, so its on-time share is 0%.\n\n**Developer track record:** Hoysala Yelahanka Projects Pvt Ltd is active. It is linked to two sister companies, Hoysala Hennur and Hoysala Sarjapur, through shared directors. Those directors are Tejas Reddy, Swathi Joshi and Shruti Shenoy, and none has a former directorship. The group has no failed companies, no stalled projects and no court cases. Its Hoysala Heights project was delivered 3 months late, and Hoysala Haven is running 1 month late.\n\n**Land title:** The plot is Sy. No. 36/6, Hagadur, 5.4 acres, A-khata. The previous owner, Thomas Gowda, held it until 2023. The graph shows no court cases on the land or the previous owner.\n\n**\"30-year brand\" claim:** The graph records Hoysala Living as a brand since 1996, which is about 30 years. However, the developing company was incorporated only in 2022. Directorships at that company are listed from 2005 onward, which is before its incorporation date. The graph doesn't explain this, so the brand's age rests on the group, not this entity.\n\n**Verify offline:**\n- Check Monsoon Infra's delivery record and the status of the cheque-bounce case.\n- Check whether the builder-buyer agreement has delay penalties and a contractor-change clause.\n- Check the RERA filings. The brochure and the approvals list show different RERA numbers.\n- Confirm the actual brand history.\n\nNo budget, BHK or locality preferences are recorded for this buyer, so I didn't search for alternatives."
+    },
+    "cypher": [],
+    "graph": null
+   }
+  ],
+  "graph": {
+   "nodes": [
+    {
+     "id": "PRJ-ORCHID",
+     "kind": "Project",
+     "name": "Hoysala Orchid Springs",
+     "flag": false
+    },
+    {
+     "id": "CON-MONSOON",
+     "kind": "Contractor",
+     "name": "Monsoon Infra Contractors",
+     "flag": true
+    },
+    {
+     "id": "PRJ-079",
+     "kind": "Project",
+     "name": "Chalukya Pearl Residency",
+     "flag": true
+    },
+    {
+     "id": "CRT-MONSOON",
+     "kind": "CourtCase",
+     "name": "C.C. 3381/2025 (cheque bounce)",
+     "flag": true
+    },
+    {
+     "id": "PRJ-080",
+     "kind": "Project",
+     "name": "Lakeshore Tranquil Bay",
+     "flag": true
+    },
+    {
+     "id": "PRJ-078",
+     "kind": "Project",
+     "name": "Mallige Sunrise Heights",
+     "flag": true
+    },
+    {
+     "id": "CMP-028",
+     "kind": "Company",
+     "name": "Hoysala Yelahanka Projects Pvt Ltd",
+     "flag": false
+    },
+    {
+     "id": "PRJ-049",
+     "kind": "Project",
+     "name": "Hoysala Meadows",
+     "flag": false
+    },
+    {
+     "id": "PRJ-051",
+     "kind": "Project",
+     "name": "Hoysala Haven",
+     "flag": false
+    },
+    {
+     "id": "PRJ-050",
+     "kind": "Project",
+     "name": "Hoysala Heights",
+     "flag": false
+    },
+    {
+     "id": "CMP-030",
+     "kind": "Company",
+     "name": "Hoysala Hennur Projects Pvt Ltd",
+     "flag": false
+    },
+    {
+     "id": "CMP-029",
+     "kind": "Company",
+     "name": "Hoysala Sarjapur Projects Pvt Ltd",
+     "flag": false
+    },
+    {
+     "id": "PER-078",
+     "kind": "Person",
+     "name": "Tejas Reddy",
+     "flag": false
+    },
+    {
+     "id": "PER-079",
+     "kind": "Person",
+     "name": "Swathi Joshi",
+     "flag": false
+    },
+    {
+     "id": "PER-080",
+     "kind": "Person",
+     "name": "Shruti Shenoy",
+     "flag": false
+    },
+    {
+     "id": "LND-083",
+     "kind": "LandParcel",
+     "name": "Sy. No. 36/6, Hagadur",
+     "flag": false
+    },
+    {
+     "id": "PER-025",
+     "kind": "Person",
+     "name": "Thomas Gowda",
+     "flag": false
+    }
+   ],
+   "edges": [
+    {
+     "src": "PRJ-ORCHID",
+     "dst": "CON-MONSOON",
+     "type": "BUILDS",
+     "hot": true
+    },
+    {
+     "src": "CON-MONSOON",
+     "dst": "PRJ-079",
+     "type": "BUILDS",
+     "hot": true
+    },
+    {
+     "src": "CON-MONSOON",
+     "dst": "CRT-MONSOON",
+     "type": "INVOLVES",
+     "hot": false
+    },
+    {
+     "src": "CON-MONSOON",
+     "dst": "PRJ-080",
+     "type": "BUILDS",
+     "hot": false
+    },
+    {
+     "src": "CON-MONSOON",
+     "dst": "PRJ-078",
+     "type": "BUILDS",
+     "hot": false
+    },
+    {
+     "src": "CMP-028",
+     "dst": "PRJ-049",
+     "type": "DEVELOPS"
+    },
+    {
+     "src": "CMP-028",
+     "dst": "PRJ-051",
+     "type": "DEVELOPS"
+    },
+    {
+     "src": "CMP-028",
+     "dst": "PRJ-ORCHID",
+     "type": "DEVELOPS"
+    },
+    {
+     "src": "CMP-028",
+     "dst": "PRJ-050",
+     "type": "DEVELOPS"
+    },
+    {
+     "src": "PER-078",
+     "dst": "CMP-028",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-079",
+     "dst": "CMP-028",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-080",
+     "dst": "CMP-028",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-078",
+     "dst": "CMP-029",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-079",
+     "dst": "CMP-029",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-078",
+     "dst": "CMP-030",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-079",
+     "dst": "CMP-030",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-080",
+     "dst": "CMP-030",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PRJ-ORCHID",
+     "dst": "LND-083",
+     "type": "BUILT_ON"
+    },
+    {
+     "src": "LND-083",
+     "dst": "PER-025",
+     "type": "PREVIOUSLY_OWNED_BY"
+    },
+    {
+     "src": "CON-MONSOON",
+     "dst": "PRJ-ORCHID",
+     "type": "BUILDS"
+    }
+   ]
+  },
+  "usage": {
+   "input": 13431,
+   "output": 2797
+  }
+ },
+ "recorded_at": "2026-10-18 20:46",
+ "models": {
+  "concierge": "claude-haiku-5-5",
+  "investigator": "claude-sonnet-5-5"
+ }
+}

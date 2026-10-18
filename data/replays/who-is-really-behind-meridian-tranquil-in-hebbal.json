@@ -1,0 +1,1973 @@
+{
+ "kind": "ask",
+ "question": "Who is really behind Meridian Tranquil in Hebbal?",
+ "result": {
+  "text": "**Caution: Meridian Tranquil has graph risk 49.2/100 (MEDIUM), driven by a director with a failed-company history.**\n\n- **Who runs it:** The developer is Meridian Hebbal Estates Pvt Ltd, incorporated in 2025, under the Meridian Urban brand (since 2016). Current directors are Imran Patil and Suresh Narayan, both since 2025.\n- **Suresh Narayan's history:** He was a director of Silverline Realcon Pvt Ltd (2015\u20132023), which is in insolvency. Silverline Meadows, a project linked to it, is stalled, 52 months late, with 11 open complaints. He was also a director of Zenith Landmark Ventures (2013\u20132021), which is struck off.\n- **Network:** He is the most central director in a wider group of 15 companies. One related entity, Nandi Habitats I LLP, has a pending cheque-bounce case (C.C. 7375/2025).\n- **Land and contractor:** The graph shows no court cases on the land (Sy. No. 29/4, Kempapura) or on contractor Udaya Engineers.\n\n**Next step:** Check the RERA ID. The brochure number differs from the one on the granted approval, so verify the registration on the RERA portal before anything else. Then ask the developer to explain Suresh Narayan's roles at Silverline and Zenith.\n\nI haven't saved this project to your shortlist yet. Would you like me to track it, and should I note your budget and localities?",
+  "events": [
+   {
+    "agent": "concierge",
+    "type": "thought",
+    "text": "This is a question about a project and its developer, so I'm delegating it to the Investigator."
+   },
+   {
+    "agent": "concierge",
+    "type": "tool_call",
+    "name": "ask_investigator",
+    "input": {
+     "question": "Who is really behind Meridian Tranquil in Hebbal? Identify the developer, its directors and promoters (including any former directors, with dates), land owners, and any contractors or related entities, and report the graph risk findings with their dates and qualifiers."
+    }
+   },
+   {
+    "agent": "concierge",
+    "type": "handoff",
+    "case_id": "C-ffad117c",
+    "question": "Who is really behind Meridian Tranquil in Hebbal? Identify the developer, its directors and promoters (including any former directors, with dates), land owners, and any contractors or related entities, and report the graph risk findings with their dates and qualifiers.",
+    "brief": "No stored preferences yet."
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "search_projects",
+    "input": {
+     "name": "Meridian Tranquil",
+     "locality": "Hebbal",
+     "include_stalled": true
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "search_projects",
+    "output": {
+     "status": "ANSWERED_WITH_PATH",
+     "projects": [
+      {
+       "id": "PRJ-TRANQUIL",
+       "name": "Meridian Tranquil",
+       "locality": "Hebbal",
+       "status": "launch",
+       "bhk": [
+        3,
+        4
+       ],
+       "price_min_lakh": 198,
+       "price_max_lakh": 340,
+       "launch_year": 2026,
+       "company": "Meridian Hebbal Estates Pvt Ltd",
+       "brand": "Meridian Urban",
+       "risk_score": 49.2,
+       "risk_band": "MEDIUM"
+      }
+     ],
+     "count": 1
+    },
+    "cypher": [
+     "CALL db.idx.fulltext.queryNodes('Project', 'Meridian* Tranquil*') YIELD node RETURN node.id AS id LIMIT 10",
+     "MATCH (p:Project)<-[:DEVELOPS]-(c:Company)\nOPTIONAL MATCH (g:Group)-[:CONTROLS]->(c)\nWITH p, c, g\nWHERE ($locality IS NULL OR toLower(p.locality) CONTAINS toLower($locality))\n  AND ($budget IS NULL OR p.price_min_lakh <= $budget)\n  AND ($bhk IS NULL OR $bhk IN p.bhk)\n  AND ($ids IS NULL OR p.id IN $ids)\n  AND ($include_stalled OR p.status <> 'stalled')\nRETURN p.id AS id, p.name AS name, p.locality AS locality, p.status AS status, p.bhk AS bhk,\n       p.price_min_lakh AS price_min_lakh, p.price_max_lakh AS price_max_lakh,\n       p.launch_year AS launch_year, c.name AS company, g.name AS brand\nORDER BY p.price_min_lakh\nLIMIT $limit",
+     "-- risk scored per project with trace_risk's path query"
+    ],
+    "graph": null
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "recall_findings",
+    "input": {
+     "project_id": "PRJ-TRANQUIL"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "recall_findings",
+    "output": {
+     "status": "NOT_IN_GRAPH",
+     "message": "No earlier finding about this project in the buyer's memory."
+    },
+    "cypher": [],
+    "graph": null
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "project_profile",
+    "input": {
+     "project_id": "PRJ-TRANQUIL"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "project_profile",
+    "output": {
+     "status": "ANSWERED_WITH_PATH",
+     "project": {
+      "bhk": [
+       3,
+       4
+      ],
+      "delay_months": 0,
+      "highlights": "Lake-facing towers near Hebbal flyover",
+      "id": "PRJ-TRANQUIL",
+      "launch_year": 2026,
+      "locality": "Hebbal",
+      "name": "Meridian Tranquil",
+      "price_max_lakh": 340,
+      "price_min_lakh": 198,
+      "promised_possession": 2030,
+      "rera_id": "PRM/KA/RERA/1251/381/PR/260809/003521",
+      "status": "launch",
+      "units": 240
+     },
+     "company": "Meridian Hebbal Estates Pvt Ltd",
+     "company_status": "active",
+     "incorporated": 2025,
+     "brand": "Meridian Urban",
+     "brand_since": 2016,
+     "directors": [
+      "Imran Patil",
+      "Suresh Narayan"
+     ],
+     "land": "Sy. No. 29/4, Kempapura",
+     "khata": "A",
+     "acres": 2.9,
+     "contractor": "Udaya Engineers",
+     "lender": "Malnad Capital",
+     "approvals": [
+      {
+       "type": "GBA plan",
+       "status": "granted",
+       "year": 2025,
+       "ref": null
+      },
+      {
+       "type": "RERA",
+       "status": "granted",
+       "year": 2026,
+       "ref": "PRM/KA/RERA/1251/419/PR/260614/003552"
+      }
+     ],
+     "complaints": {
+      "open": 0,
+      "resolved": 0,
+      "by_category": []
+     }
+    },
+    "cypher": [
+     "MATCH (p:Project {id: $id})<-[:DEVELOPS]-(c:Company)\nOPTIONAL MATCH (g:Group)-[:CONTROLS]->(c)\nOPTIONAL MATCH (d:Person)-[dir:DIRECTOR_OF]->(c)\nOPTIONAL MATCH (p)-[:BUILT_ON]->(l:LandParcel)\nOPTIONAL MATCH (con:Contractor)-[:BUILDS]->(p)\nOPTIONAL MATCH (len:Lender)-[:FINANCES]->(p)\nRETURN p {.*} AS project, c.name AS company, c.status AS company_status, c.incorporated AS incorporated,\n       g.name AS brand, g.brand_since AS brand_since,\n       collect(DISTINCT d.name) AS directors, l.name AS land, l.khata AS khata, l.acres AS acres,\n       con.name AS contractor, len.name AS lender",
+     "MATCH (p:Project {id: $id})-[:HAS_APPROVAL]->(a:Approval)\nRETURN a.type AS type, a.status AS status, a.year AS year, a.ref AS ref ORDER BY a.year",
+     "MATCH (p:Project {id: $id})<-[:AGAINST]-(c:Complaint)\nRETURN c.status AS status, c.category AS category, count(c) AS n"
+    ],
+    "graph": null
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "trace_risk",
+    "input": {
+     "project_id": "PRJ-TRANQUIL"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "trace_risk",
+    "output": {
+     "project_id": "PRJ-TRANQUIL",
+     "project": "Meridian Tranquil",
+     "truncated": false,
+     "direct_flags": [],
+     "risk_score": 49.2,
+     "band": "MEDIUM",
+     "katz_K": 0.677,
+     "n_flags": 3,
+     "n_paths": 3,
+     "by_flag_kind": {
+      "Company": 0.504,
+      "Project": 0.173
+     },
+     "top_evidence": [
+      {
+       "flag_id": "CMP-SILVERLINE",
+       "flag_kind": "Company",
+       "flag_name": "Silverline Realcon Pvt Ltd",
+       "reason": "Company insolvency",
+       "severity": 0.8,
+       "created_at": 1792022400,
+       "contribution": 0.288,
+       "n_paths": 1,
+       "min_hops": 3,
+       "share_pct": 42.6,
+       "path_text": "Meridian Tranquil -[DEVELOPS]- Meridian Hebbal Estates Pvt Ltd -[DIRECTOR_OF]- Suresh Narayan -[DIRECTOR_OF]- Silverline Realcon Pvt Ltd"
+      },
+      {
+       "flag_id": "CMP-ZENITH",
+       "flag_kind": "Company",
+       "flag_name": "Zenith Landmark Ventures Pvt Ltd",
+       "reason": "Company struck off",
+       "severity": 0.6,
+       "created_at": 1792022400,
+       "contribution": 0.216,
+       "n_paths": 1,
+       "min_hops": 3,
+       "share_pct": 31.9,
+       "path_text": "Meridian Tranquil -[DEVELOPS]- Meridian Hebbal Estates Pvt Ltd -[DIRECTOR_OF]- Suresh Narayan -[DIRECTOR_OF]- Zenith Landmark Ventures Pvt Ltd"
+      },
+      {
+       "flag_id": "PRJ-SILVERLINE",
+       "flag_kind": "Project",
+       "flag_name": "Silverline Meadows",
+       "reason": "Project stalled",
+       "severity": 0.8,
+       "created_at": 1792022400,
+       "contribution": 0.173,
+       "n_paths": 1,
+       "min_hops": 4,
+       "share_pct": 25.6,
+       "path_text": "Meridian Tranquil -[DEVELOPS]- Meridian Hebbal Estates Pvt Ltd -[DIRECTOR_OF]- Suresh Narayan -[DIRECTOR_OF]- Silverline Realcon Pvt Ltd -[DEVELOPS]- Silverline Meadows"
+      }
+     ],
+     "model": {
+      "beta": 0.6,
+      "max_hops": 4
+     },
+     "status": "ANSWERED_WITH_PATH",
+     "how_to_read": "risk_score 0-100 = 100*(1-exp(-K)); K sums severity * 0.6^(hops-1) * edge weights over every path to a red flag within 4 hops. share_pct = share of K from that flag; n_paths = how many distinct paths reach it."
+    },
+    "cypher": [
+     "MATCH path = (p:Project {id: $id})-[:DEVELOPS|DIRECTOR_OF|CONTROLS|BUILT_ON|PREVIOUSLY_OWNED_BY|INVOLVES|AGAINST|HAS_APPROVAL|BUILDS*1..4]-(f:RedFlag)\nWHERE f <> p\n  AND none(n IN nodes(path)[1..-1] WHERE n.kind = 'Project')\n  AND size([r IN relationships(path) WHERE type(r) = 'PREVIOUSLY_OWNED_BY']) <= 1\nRETURN f.id AS flag_id, f.kind AS flag_kind, f.name AS flag_name, f.reason AS reason,\n       f.severity AS severity, f.created_at AS created_at, length(path) AS hops,\n       [n IN nodes(path) | {id: n.id, kind: n.kind, name: n.name}] AS nodes,\n       [r IN relationships(path) | type(r)] AS rels\nLIMIT 2001"
+    ],
+    "graph": {
+     "nodes": [
+      {
+       "id": "PRJ-TRANQUIL",
+       "kind": "Project",
+       "name": "Meridian Tranquil",
+       "flag": false
+      },
+      {
+       "id": "CMP-MERIDIAN-HEBBAL",
+       "kind": "Company",
+       "name": "Meridian Hebbal Estates Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "PER-SURESH",
+       "kind": "Person",
+       "name": "Suresh Narayan",
+       "flag": false
+      },
+      {
+       "id": "CMP-SILVERLINE",
+       "kind": "Company",
+       "name": "Silverline Realcon Pvt Ltd",
+       "flag": true
+      },
+      {
+       "id": "CMP-ZENITH",
+       "kind": "Company",
+       "name": "Zenith Landmark Ventures Pvt Ltd",
+       "flag": true
+      },
+      {
+       "id": "PRJ-SILVERLINE",
+       "kind": "Project",
+       "name": "Silverline Meadows",
+       "flag": true
+      }
+     ],
+     "edges": [
+      {
+       "src": "PRJ-TRANQUIL",
+       "dst": "CMP-MERIDIAN-HEBBAL",
+       "type": "DEVELOPS",
+       "hot": true
+      },
+      {
+       "src": "CMP-MERIDIAN-HEBBAL",
+       "dst": "PER-SURESH",
+       "type": "DIRECTOR_OF",
+       "hot": true
+      },
+      {
+       "src": "PER-SURESH",
+       "dst": "CMP-SILVERLINE",
+       "type": "DIRECTOR_OF",
+       "hot": true
+      },
+      {
+       "src": "PER-SURESH",
+       "dst": "CMP-ZENITH",
+       "type": "DIRECTOR_OF",
+       "hot": false
+      },
+      {
+       "src": "CMP-SILVERLINE",
+       "dst": "PRJ-SILVERLINE",
+       "type": "DEVELOPS",
+       "hot": false
+      }
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "developer_network",
+    "input": {
+     "project_id": "PRJ-TRANQUIL"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "developer_network",
+    "output": {
+     "status": "ANSWERED_WITH_PATH",
+     "developer": "Meridian Hebbal Estates Pvt Ltd",
+     "group_size": {
+      "companies": 15,
+      "people": 17
+     },
+     "brands_in_group": [
+      "(no brand)",
+      "Coral Bay Developers",
+      "Meridian Urban",
+      "Nandi Heights Group",
+      "Sahyadri Spaces",
+      "Vrindavan Realty"
+     ],
+     "failed_companies": [
+      "Silverline Realcon Pvt Ltd",
+      "Zenith Landmark Ventures Pvt Ltd"
+     ],
+     "bridging_directors": {
+      "Tejas Rao": [
+       "Nandi Habitats I LLP (2005-now)",
+       "Nandi Yelahanka Projects Pvt Ltd (2014-now)"
+      ],
+      "Kavya Murthy": [
+       "Nandi Habitats I LLP (2007-now)",
+       "Nandi Yelahanka Projects Pvt Ltd (1998-now)"
+      ],
+      "Tejas Krishnan": [
+       "Nandi Yelahanka Projects Pvt Ltd (2021-now)",
+       "Coral Realcon Pvt Ltd (2019-now)",
+       "Coral Habitats II LLP (2022-now)",
+       "Coral Infra 2 Pvt Ltd (2016-now)"
+      ],
+      "Kavya Bhat": [
+       "Sahyadri Habitats I LLP (2016-now)",
+       "Sahyadri Devanahalli Projects Pvt Ltd (2018-now)"
+      ],
+      "Harsha Gowda": [
+       "Sahyadri Habitats I LLP (2013-now)",
+       "Sahyadri Habitats II LLP (2021-now)"
+      ],
+      "Suresh Narayan": [
+       "Sahyadri Habitats I LLP (2017-now)",
+       "Coral Realcon Pvt Ltd (2019-now)",
+       "Vrindavan Realcon Pvt Ltd (2017-now)",
+       "Meridian Hebbal Estates Pvt Ltd (2025-now)",
+       "Zenith Landmark Ventures Pvt Ltd (2013-2021)",
+       "Silverline Realcon Pvt Ltd (2015-2023)"
+      ],
+      "Farhan Shenoy": [
+       "Sahyadri Habitats II LLP (2022-now)",
+       "Sahyadri Devanahalli Projects Pvt Ltd (2021-now)",
+       "Meridian Habitats I LLP (2023-now)"
+      ],
+      "Madhuri Acharya": [
+       "Coral Realcon Pvt Ltd (2022-now)",
+       "Coral Habitats II LLP (2014-now)",
+       "Coral Infra 2 Pvt Ltd (2018-now)"
+      ],
+      "Yash Murthy": [
+       "Coral Realcon Pvt Ltd (2022-now)",
+       "Coral Habitats II LLP (2017-now)",
+       "Coral Infra 2 Pvt Ltd (2021-now)"
+      ],
+      "Joseph Menon": [
+       "Meridian Habitats I LLP (2021-now)",
+       "Meridian Infra 1 Pvt Ltd (2019-now)"
+      ],
+      "Imran Patil": [
+       "Meridian Habitats I LLP (2022-now)",
+       "Meridian Infra 1 Pvt Ltd (2017-now)",
+       "Meridian Hebbal Estates Pvt Ltd (2025-now)"
+      ],
+      "Joseph Murthy": [
+       "Vrindavan Realcon Pvt Ltd (2014-now)",
+       "Vrindavan Kanakapura Projects Pvt Ltd (2017-now)"
+      ]
+     },
+     "companies": [
+      {
+       "company_id": "CMP-031",
+       "company": "Sahyadri Habitats I LLP",
+       "company_status": "active",
+       "brand": "Sahyadri Spaces",
+       "projects": [
+        {
+         "id": "PRJ-056",
+         "name": "Sahyadri Grandeur",
+         "status": "under_construction",
+         "delay_months": 2,
+         "open_complaints": 0
+        },
+        {
+         "id": "PRJ-057",
+         "name": "Sahyadri Palms",
+         "status": "delivered",
+         "delay_months": 9,
+         "open_complaints": 1
+        }
+       ]
+      },
+      {
+       "company_id": "CMP-038",
+       "company": "Meridian Infra 1 Pvt Ltd",
+       "company_status": "active",
+       "brand": "Meridian Urban",
+       "projects": [
+        {
+         "id": "PRJ-070",
+         "name": "Meridian Skyline",
+         "status": "under_construction",
+         "delay_months": 0,
+         "open_complaints": 0
+        },
+        {
+         "id": "PRJ-071",
+         "name": "Meridian Vista",
+         "status": "delivered",
+         "delay_months": 0,
+         "open_complaints": 0
+        },
+        {
+         "id": "PRJ-069",
+         "name": "Meridian Courtyard",
+         "status": "delivered",
+         "delay_months": 0,
+         "open_complaints": 0
+        }
+       ]
+      },
+      {
+       "company_id": "CMP-SILVERLINE",
+       "company": "Silverline Realcon Pvt Ltd",
+       "company_status": "insolvency",
+       "brand": null,
+       "projects": [
+        {
+         "id": "PRJ-SILVERLINE",
+         "name": "Silverline Meadows",
+         "status": "stalled",
+         "delay_months": 52,
+         "open_complaints": 11
+        }
+       ]
+      },
+      {
+       "company_id": "CMP-035",
+       "company": "Coral Habitats II LLP",
+       "company_status": "active",
+       "brand": "Coral Bay Developers",
+       "projects": [
+        {
+         "id": "PRJ-063",
+         "name": "Coral Orchid",
+         "status": "delivered",
+         "delay_months": 0,
+         "open_complaints": 0
+        }
+       ]
+      },
+      {
+       "company_id": "CMP-033",
+       "company": "Sahyadri Devanahalli Projects Pvt Ltd",
+       "company_status": "active",
+       "brand": "Sahyadri Spaces",
+       "projects": [
+        {
+         "id": "PRJ-059",
+         "name": "Sahyadri Haven",
+         "status": "delivered",
+         "delay_months": 14,
+         "open_complaints": 6
+        },
+        {
+         "id": "PRJ-060",
+         "name": "Sahyadri Avenue",
+         "status": "delivered",
+         "delay_months": 14,
+         "open_complaints": 3
+        }
+       ]
+      },
+      {
+       "company_id": "CMP-032",
+       "company": "Sahyadri Habitats II LLP",
+       "company_status": "active",
+       "brand": "Sahyadri Spaces",
+       "projects": [
+        {
+         "id": "PRJ-058",
+         "name": "Sahyadri Woods",
+         "status": "under_construction",
+         "delay_months": 3,
+         "open_complaints": 1
+        }
+       ]
+      },
+      {
+       "company_id": "CMP-010",
+       "company": "Nandi Habitats I LLP",
+       "company_status": "active",
+       "brand": "Nandi Heights Group",
+       "projects": [
+        {
+         "id": "PRJ-011",
+         "name": "Nandi Pinnacle",
+         "status": "under_construction",
+         "delay_months": 0,
+         "open_complaints": 1
+        }
+       ]
+      },
+      {
+       "company_id": "CMP-036",
+       "company": "Coral Infra 2 Pvt Ltd",
+       "company_status": "active",
+       "brand": "Coral Bay Developers",
+       "projects": [
+        {
+         "id": "PRJ-065",
+         "name": "Coral Gardens",
+         "status": "under_construction",
+         "delay_months": 0,
+         "open_complaints": 0
+        },
+        {
+         "id": "PRJ-066",
+         "name": "Coral Terraces",
+         "status": "delivered",
+         "delay_months": 4,
+         "open_complaints": 0
+        },
+        {
+         "id": "PRJ-064",
+         "name": "Coral Grandeur",
+         "status": "delivered",
+         "delay_months": 9,
+         "open_complaints": 0
+        }
+       ]
+      },
+      {
+       "company_id": "CMP-037",
+       "company": "Meridian Habitats I LLP",
+       "company_status": "active",
+       "brand": "Meridian Urban",
+       "projects": [
+        {
+         "id": "PRJ-067",
+         "name": "Meridian Haven",
+         "status": "delivered",
+         "delay_months": 6,
+         "open_complaints": 0
+        },
+        {
+         "id": "PRJ-068",
+         "name": "Meridian Enclave",
+         "status": "delivered",
+         "delay_months": 2,
+         "open_complaints": 0
+        }
+       ]
+      },
+      {
+       "company_id": "CMP-034",
+       "company": "Coral Realcon Pvt Ltd",
+       "company_status": "active",
+       "brand": "Coral Bay Developers",
+       "projects": [
+        {
+         "id": "PRJ-061",
+         "name": "Coral Horizon",
+         "status": "under_construction",
+         "delay_months": 3,
+         "open_complaints": 0
+        },
+        {
+         "id": "PRJ-062",
+         "name": "Coral Serenity",
+         "status": "under_construction",
+         "delay_months": 1,
+         "open_complaints": 1
+        }
+       ]
+      },
+      {
+       "company_id": "CMP-ZENITH",
+       "company": "Zenith Landmark Ventures Pvt Ltd",
+       "company_status": "struck_off",
+       "brand": null,
+       "projects": []
+      },
+      {
+       "company_id": "CMP-039",
+       "company": "Vrindavan Realcon Pvt Ltd",
+       "company_status": "active",
+       "brand": "Vrindavan Realty",
+       "projects": [
+        {
+         "id": "PRJ-073",
+         "name": "Vrindavan Serenity",
+         "status": "under_construction",
+         "delay_months": 3,
+         "open_complaints": 0
+        },
+        {
+         "id": "PRJ-072",
+         "name": "Vrindavan Lakeview",
+         "status": "delivered",
+         "delay_months": 0,
+         "open_complaints": 0
+        }
+       ]
+      },
+      {
+       "company_id": "CMP-040",
+       "company": "Vrindavan Kanakapura Projects Pvt Ltd",
+       "company_status": "active",
+       "brand": "Vrindavan Realty",
+       "projects": [
+        {
+         "id": "PRJ-075",
+         "name": "Vrindavan Gardens",
+         "status": "delivered",
+         "delay_months": 2,
+         "open_complaints": 0
+        },
+        {
+         "id": "PRJ-074",
+         "name": "Vrindavan Meadows",
+         "status": "under_construction",
+         "delay_months": 4,
+         "open_complaints": 0
+        }
+       ]
+      },
+      {
+       "company_id": "CMP-MERIDIAN-HEBBAL",
+       "company": "Meridian Hebbal Estates Pvt Ltd",
+       "company_status": "active",
+       "brand": "Meridian Urban",
+       "projects": [
+        {
+         "id": "PRJ-TRANQUIL",
+         "name": "Meridian Tranquil",
+         "status": "launch",
+         "delay_months": 0,
+         "open_complaints": 0
+        }
+       ]
+      },
+      {
+       "company_id": "CMP-011",
+       "company": "Nandi Yelahanka Projects Pvt Ltd",
+       "company_status": "active",
+       "brand": "Nandi Heights Group",
+       "projects": [
+        {
+         "id": "PRJ-013",
+         "name": "Nandi Courtyard",
+         "status": "delivered",
+         "delay_months": 4,
+         "open_complaints": 0
+        },
+        {
+         "id": "PRJ-014",
+         "name": "Nandi Terraces",
+         "status": "delivered",
+         "delay_months": 9,
+         "open_complaints": 0
+        },
+        {
+         "id": "PRJ-012",
+         "name": "Nandi Vista",
+         "status": "under_construction",
+         "delay_months": 4,
+         "open_complaints": 0
+        }
+       ]
+      }
+     ],
+     "court_cases": [
+      {
+       "company": "Nandi Habitats I LLP",
+       "case_no": "C.C. 7375/2025",
+       "court": "Magistrate Court, Bengaluru",
+       "nature": "cheque_bounce",
+       "status": "pending"
+      },
+      {
+       "company": "Sahyadri Habitats I LLP",
+       "case_no": "C.C. 6152/2018",
+       "court": "Magistrate Court, Bengaluru",
+       "nature": "cheque_bounce",
+       "status": "disposed"
+      },
+      {
+       "company": "Coral Realcon Pvt Ltd",
+       "case_no": "C.C. 6666/2024",
+       "court": "Magistrate Court, Bengaluru",
+       "nature": "cheque_bounce",
+       "status": "disposed"
+      }
+     ],
+     "algorithm": "algo.WCC on (:Person)-[:DIRECTOR_OF]->(:Company)"
+    },
+    "cypher": [
+     "CALL algo.WCC({nodeLabels: ['Person', 'Company'], relationshipTypes: ['DIRECTOR_OF']})\nYIELD node, componentId\nRETURN node.id AS id, componentId AS component",
+     "MATCH (c:Company) WHERE c.id IN $company_ids\nOPTIONAL MATCH (g:Group)-[:CONTROLS]->(c)\nOPTIONAL MATCH (c)-[:DEVELOPS]->(p:Project)\nOPTIONAL MATCH (p)<-[:AGAINST]-(cp:Complaint {status: 'open'})\nWITH c, g, p, count(cp) AS open_complaints\nRETURN c.id AS company_id, c.name AS company, c.status AS company_status, g.name AS brand,\n       collect(CASE WHEN p IS NULL THEN NULL ELSE {id: p.id, name: p.name, status: p.status,\n               delay_months: p.delay_months, open_complaints: open_complaints} END) AS projects",
+     "MATCH (d:Person)-[r:DIRECTOR_OF]->(c:Company)\nWHERE c.id IN $company_ids\nRETURN d.id AS person_id, d.name AS person, c.id AS company_id, c.name AS company,\n       r.since AS since, r.until AS until",
+     "MATCH (k:CourtCase)-[:INVOLVES]->(c:Company) WHERE c.id IN $company_ids\nRETURN c.name AS company, k.case_no AS case_no, k.court AS court, k.nature AS nature, k.status AS status"
+    ],
+    "graph": {
+     "nodes": [
+      {
+       "id": "CMP-031",
+       "kind": "Company",
+       "name": "Sahyadri Habitats I LLP",
+       "flag": false
+      },
+      {
+       "id": "CMP-038",
+       "kind": "Company",
+       "name": "Meridian Infra 1 Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "CMP-SILVERLINE",
+       "kind": "Company",
+       "name": "Silverline Realcon Pvt Ltd",
+       "flag": true
+      },
+      {
+       "id": "PRJ-SILVERLINE",
+       "kind": "Project",
+       "name": "Silverline Meadows",
+       "flag": true
+      },
+      {
+       "id": "CMP-035",
+       "kind": "Company",
+       "name": "Coral Habitats II LLP",
+       "flag": false
+      },
+      {
+       "id": "CMP-033",
+       "kind": "Company",
+       "name": "Sahyadri Devanahalli Projects Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "PRJ-059",
+       "kind": "Project",
+       "name": "Sahyadri Haven",
+       "flag": true
+      },
+      {
+       "id": "PRJ-060",
+       "kind": "Project",
+       "name": "Sahyadri Avenue",
+       "flag": true
+      },
+      {
+       "id": "CMP-032",
+       "kind": "Company",
+       "name": "Sahyadri Habitats II LLP",
+       "flag": false
+      },
+      {
+       "id": "CMP-010",
+       "kind": "Company",
+       "name": "Nandi Habitats I LLP",
+       "flag": false
+      },
+      {
+       "id": "CMP-036",
+       "kind": "Company",
+       "name": "Coral Infra 2 Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "CMP-037",
+       "kind": "Company",
+       "name": "Meridian Habitats I LLP",
+       "flag": false
+      },
+      {
+       "id": "CMP-034",
+       "kind": "Company",
+       "name": "Coral Realcon Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "CMP-ZENITH",
+       "kind": "Company",
+       "name": "Zenith Landmark Ventures Pvt Ltd",
+       "flag": true
+      },
+      {
+       "id": "CMP-039",
+       "kind": "Company",
+       "name": "Vrindavan Realcon Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "CMP-040",
+       "kind": "Company",
+       "name": "Vrindavan Kanakapura Projects Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "CMP-MERIDIAN-HEBBAL",
+       "kind": "Company",
+       "name": "Meridian Hebbal Estates Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "PRJ-TRANQUIL",
+       "kind": "Project",
+       "name": "Meridian Tranquil",
+       "flag": false
+      },
+      {
+       "id": "CMP-011",
+       "kind": "Company",
+       "name": "Nandi Yelahanka Projects Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "PER-050",
+       "kind": "Person",
+       "name": "Tejas Rao",
+       "flag": false
+      },
+      {
+       "id": "PER-051",
+       "kind": "Person",
+       "name": "Kavya Murthy",
+       "flag": false
+      },
+      {
+       "id": "PER-084",
+       "kind": "Person",
+       "name": "Tejas Krishnan",
+       "flag": false
+      },
+      {
+       "id": "PER-081",
+       "kind": "Person",
+       "name": "Kavya Bhat",
+       "flag": false
+      },
+      {
+       "id": "PER-083",
+       "kind": "Person",
+       "name": "Harsha Gowda",
+       "flag": false
+      },
+      {
+       "id": "PER-SURESH",
+       "kind": "Person",
+       "name": "Suresh Narayan",
+       "flag": false
+      },
+      {
+       "id": "PER-082",
+       "kind": "Person",
+       "name": "Farhan Shenoy",
+       "flag": false
+      },
+      {
+       "id": "PER-085",
+       "kind": "Person",
+       "name": "Madhuri Acharya",
+       "flag": false
+      },
+      {
+       "id": "PER-086",
+       "kind": "Person",
+       "name": "Yash Murthy",
+       "flag": false
+      },
+      {
+       "id": "PER-087",
+       "kind": "Person",
+       "name": "Joseph Menon",
+       "flag": false
+      },
+      {
+       "id": "PER-089",
+       "kind": "Person",
+       "name": "Imran Patil",
+       "flag": false
+      },
+      {
+       "id": "PER-092",
+       "kind": "Person",
+       "name": "Joseph Murthy",
+       "flag": false
+      }
+     ],
+     "edges": [
+      {
+       "src": "CMP-SILVERLINE",
+       "dst": "PRJ-SILVERLINE",
+       "type": "DEVELOPS"
+      },
+      {
+       "src": "CMP-033",
+       "dst": "PRJ-059",
+       "type": "DEVELOPS"
+      },
+      {
+       "src": "CMP-033",
+       "dst": "PRJ-060",
+       "type": "DEVELOPS"
+      },
+      {
+       "src": "CMP-MERIDIAN-HEBBAL",
+       "dst": "PRJ-TRANQUIL",
+       "type": "DEVELOPS"
+      },
+      {
+       "src": "PER-050",
+       "dst": "CMP-010",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-051",
+       "dst": "CMP-010",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-050",
+       "dst": "CMP-011",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-051",
+       "dst": "CMP-011",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-084",
+       "dst": "CMP-011",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-081",
+       "dst": "CMP-031",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-083",
+       "dst": "CMP-031",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-SURESH",
+       "dst": "CMP-031",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-082",
+       "dst": "CMP-032",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-083",
+       "dst": "CMP-032",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-081",
+       "dst": "CMP-033",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-082",
+       "dst": "CMP-033",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-084",
+       "dst": "CMP-034",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-085",
+       "dst": "CMP-034",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-086",
+       "dst": "CMP-034",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-SURESH",
+       "dst": "CMP-034",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-084",
+       "dst": "CMP-035",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-085",
+       "dst": "CMP-035",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-086",
+       "dst": "CMP-035",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-084",
+       "dst": "CMP-036",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-085",
+       "dst": "CMP-036",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-086",
+       "dst": "CMP-036",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-082",
+       "dst": "CMP-037",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-087",
+       "dst": "CMP-037",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-089",
+       "dst": "CMP-037",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-087",
+       "dst": "CMP-038",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-089",
+       "dst": "CMP-038",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-092",
+       "dst": "CMP-039",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-SURESH",
+       "dst": "CMP-039",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-092",
+       "dst": "CMP-040",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-089",
+       "dst": "CMP-MERIDIAN-HEBBAL",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-SURESH",
+       "dst": "CMP-MERIDIAN-HEBBAL",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-SURESH",
+       "dst": "CMP-ZENITH",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-SURESH",
+       "dst": "CMP-SILVERLINE",
+       "type": "DIRECTOR_OF"
+      }
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "key_people",
+    "input": {
+     "project_id": "PRJ-TRANQUIL"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "key_people",
+    "output": {
+     "status": "ANSWERED_WITH_PATH",
+     "directors": [
+      {
+       "name": "Suresh Narayan",
+       "betweenness": 188.2,
+       "rank_among_all_directors": 1,
+       "total_ranked_directors": 30,
+       "companies": 6,
+       "brands": [
+        "(no brand)",
+        "Coral Bay Developers",
+        "Meridian Urban",
+        "Sahyadri Spaces",
+        "Vrindavan Realty"
+       ],
+       "failed_companies": [
+        "Silverline Realcon Pvt Ltd",
+        "Zenith Landmark Ventures Pvt Ltd"
+       ],
+       "boards": [
+        {
+         "company": "Sahyadri Habitats I LLP",
+         "status": "active",
+         "brand": "Sahyadri Spaces",
+         "since": 2017,
+         "until": null
+        },
+        {
+         "company": "Coral Realcon Pvt Ltd",
+         "status": "active",
+         "brand": "Coral Bay Developers",
+         "since": 2019,
+         "until": null
+        },
+        {
+         "company": "Vrindavan Realcon Pvt Ltd",
+         "status": "active",
+         "brand": "Vrindavan Realty",
+         "since": 2017,
+         "until": null
+        },
+        {
+         "company": "Meridian Hebbal Estates Pvt Ltd",
+         "status": "active",
+         "brand": "Meridian Urban",
+         "since": 2025,
+         "until": null
+        },
+        {
+         "company": "Silverline Realcon Pvt Ltd",
+         "status": "insolvency",
+         "brand": null,
+         "since": 2015,
+         "until": 2023
+        },
+        {
+         "company": "Zenith Landmark Ventures Pvt Ltd",
+         "status": "struck_off",
+         "brand": null,
+         "since": 2013,
+         "until": 2021
+        }
+       ]
+      },
+      {
+       "name": "Imran Patil",
+       "betweenness": 66.7,
+       "rank_among_all_directors": 3,
+       "total_ranked_directors": 30,
+       "companies": 3,
+       "brands": [
+        "Meridian Urban"
+       ],
+       "failed_companies": [],
+       "boards": [
+        {
+         "company": "Meridian Habitats I LLP",
+         "status": "active",
+         "brand": "Meridian Urban",
+         "since": 2022,
+         "until": null
+        },
+        {
+         "company": "Meridian Infra 1 Pvt Ltd",
+         "status": "active",
+         "brand": "Meridian Urban",
+         "since": 2017,
+         "until": null
+        },
+        {
+         "company": "Meridian Hebbal Estates Pvt Ltd",
+         "status": "active",
+         "brand": "Meridian Urban",
+         "since": 2025,
+         "until": null
+        }
+       ]
+      }
+     ],
+     "algorithm": "algo.betweenness on the Person-Company directorship network (both edge directions)"
+    },
+    "cypher": [
+     "CALL algo.betweenness({nodeLabels: ['Person', 'Company'], relationshipTypes: ['DIRECTOR_OF', 'HAS_DIRECTOR']})\nYIELD node, score\nWITH node, score WHERE node.kind = 'Person' AND score > 0\nRETURN node.id AS id, node.name AS name, score\nORDER BY score DESC",
+     "MATCH (d:Person)-[r:DIRECTOR_OF]->(c:Company) WHERE d.id IN $ids\nOPTIONAL MATCH (g:Group)-[:CONTROLS]->(c)\nRETURN d.id AS id, collect({company_id: c.id, company: c.name, status: c.status, brand: g.name,\n                             since: r.since, until: r.until}) AS boards"
+    ],
+    "graph": {
+     "nodes": [
+      {
+       "id": "PER-089",
+       "kind": "Person",
+       "name": "Imran Patil",
+       "flag": false
+      },
+      {
+       "id": "CMP-037",
+       "kind": "Company",
+       "name": "Meridian Habitats I LLP",
+       "flag": false
+      },
+      {
+       "id": "CMP-038",
+       "kind": "Company",
+       "name": "Meridian Infra 1 Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "CMP-MERIDIAN-HEBBAL",
+       "kind": "Company",
+       "name": "Meridian Hebbal Estates Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "PER-SURESH",
+       "kind": "Person",
+       "name": "Suresh Narayan",
+       "flag": false
+      },
+      {
+       "id": "CMP-031",
+       "kind": "Company",
+       "name": "Sahyadri Habitats I LLP",
+       "flag": false
+      },
+      {
+       "id": "CMP-034",
+       "kind": "Company",
+       "name": "Coral Realcon Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "CMP-039",
+       "kind": "Company",
+       "name": "Vrindavan Realcon Pvt Ltd",
+       "flag": false
+      },
+      {
+       "id": "CMP-SILVERLINE",
+       "kind": "Company",
+       "name": "Silverline Realcon Pvt Ltd",
+       "flag": true
+      },
+      {
+       "id": "CMP-ZENITH",
+       "kind": "Company",
+       "name": "Zenith Landmark Ventures Pvt Ltd",
+       "flag": true
+      }
+     ],
+     "edges": [
+      {
+       "src": "PER-089",
+       "dst": "CMP-037",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-089",
+       "dst": "CMP-038",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-089",
+       "dst": "CMP-MERIDIAN-HEBBAL",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-SURESH",
+       "dst": "CMP-031",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-SURESH",
+       "dst": "CMP-034",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-SURESH",
+       "dst": "CMP-039",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-SURESH",
+       "dst": "CMP-MERIDIAN-HEBBAL",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-SURESH",
+       "dst": "CMP-SILVERLINE",
+       "type": "DIRECTOR_OF"
+      },
+      {
+       "src": "PER-SURESH",
+       "dst": "CMP-ZENITH",
+       "type": "DIRECTOR_OF"
+      }
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "land_title_check",
+    "input": {
+     "project_id": "PRJ-TRANQUIL"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "land_title_check",
+    "output": {
+     "status": "NOT_IN_GRAPH",
+     "project": "Meridian Tranquil",
+     "land": "Sy. No. 29/4, Kempapura",
+     "khata": "A",
+     "acres": 2.9,
+     "previous_owner": "Bhoomi Land Aggregators Pvt Ltd",
+     "owner_kind": "Company",
+     "owned_until": 2025,
+     "court_cases": [],
+     "verdict": "No title issues found"
+    },
+    "cypher": [
+     "MATCH (p:Project {id: $id})-[b:BUILT_ON]->(l:LandParcel)\nOPTIONAL MATCH (l)-[po:PREVIOUSLY_OWNED_BY]->(o)\nOPTIONAL MATCH (k:CourtCase)-[:INVOLVES]->(x) WHERE x = l OR x = o\nRETURN p.name AS project, l.id AS land_id, l.name AS land, l.khata AS khata, l.acres AS acres,\n       o.id AS owner_id, o.name AS previous_owner, o.kind AS owner_kind, po.until AS owned_until,\n       collect(DISTINCT CASE WHEN k IS NULL THEN NULL ELSE\n           {id: k.id, case_no: k.case_no, court: k.court, nature: k.nature, status: k.status,\n            filed: k.filed, parties: k.parties, involves: x.name} END) AS cases"
+    ],
+    "graph": {
+     "nodes": [
+      {
+       "id": "PRJ-TRANQUIL",
+       "kind": "Project",
+       "name": "Meridian Tranquil",
+       "flag": false
+      },
+      {
+       "id": "LND-088",
+       "kind": "LandParcel",
+       "name": "Sy. No. 29/4, Kempapura",
+       "flag": false
+      },
+      {
+       "id": "CMP-001",
+       "kind": "Company",
+       "name": "Bhoomi Land Aggregators Pvt Ltd",
+       "flag": false
+      }
+     ],
+     "edges": [
+      {
+       "src": "PRJ-TRANQUIL",
+       "dst": "LND-088",
+       "type": "BUILT_ON"
+      },
+      {
+       "src": "LND-088",
+       "dst": "CMP-001",
+       "type": "PREVIOUSLY_OWNED_BY"
+      }
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "contractor_record",
+    "input": {
+     "project_id": "PRJ-TRANQUIL"
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "contractor_record",
+    "output": {
+     "status": "NOT_IN_GRAPH",
+     "contractor": "Udaya Engineers",
+     "other_projects": 11,
+     "late_or_stalled": [],
+     "on_time_share_pct": 100.0,
+     "court_cases": []
+    },
+    "cypher": [
+     "MATCH (p:Project {id: $id})<-[:BUILDS]-(con:Contractor)\nOPTIONAL MATCH (con)-[:BUILDS]->(o:Project) WHERE o <> p\nOPTIONAL MATCH (k:CourtCase)-[:INVOLVES]->(con)\nWITH con, collect(DISTINCT o {.id, .name, .status, .delay_months, .locality}) AS others,\n     collect(DISTINCT k {.case_no, .court, .nature, .status, .filed}) AS cases\nRETURN con.id AS contractor_id, con.name AS contractor, others, cases"
+    ],
+    "graph": {
+     "nodes": [
+      {
+       "id": "CON-008",
+       "kind": "Contractor",
+       "name": "Udaya Engineers",
+       "flag": false
+      },
+      {
+       "id": "PRJ-TRANQUIL",
+       "kind": "Project",
+       "name": "Meridian Tranquil",
+       "flag": false
+      }
+     ],
+     "edges": [
+      {
+       "src": "CON-008",
+       "dst": "PRJ-TRANQUIL",
+       "type": "BUILDS"
+      }
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_call",
+    "name": "record_finding",
+    "input": {
+     "project_id": "PRJ-TRANQUIL",
+     "verdict": "CAUTION",
+     "risk_score": 49.2,
+     "summary": "Meridian Tranquil's developer, incorporated 2025, shares director Suresh Narayan with an insolvent company and a struck-off company. Land, contractor and complaints show no known issues in the graph.",
+     "evidence": [
+      "Meridian Tranquil -> Meridian Hebbal Estates Pvt Ltd -> director Suresh Narayan -> Silverline Realcon Pvt Ltd (insolvency; he was a director 2015-2023) -> Silverline Meadows (stalled, 52 months delay)",
+      "Meridian Tranquil -> Meridian Hebbal Estates Pvt Ltd -> director Suresh Narayan -> Zenith Landmark Ventures Pvt Ltd (struck off; he was a director 2013-2021)"
+     ]
+    }
+   },
+   {
+    "agent": "investigator",
+    "type": "tool_result",
+    "name": "record_finding",
+    "output": {
+     "status": "VERIFIED",
+     "recorded": true,
+     "verdict": "CAUTION",
+     "risk_score": 49.2,
+     "corrections": []
+    },
+    "cypher": [],
+    "graph": null
+   },
+   {
+    "agent": "investigator",
+    "type": "case_closed",
+    "case_id": "C-ffad117c",
+    "findings": [
+     {
+      "project_id": "PRJ-TRANQUIL",
+      "project": "Meridian Tranquil",
+      "verdict": "CAUTION",
+      "risk_score": 49.2,
+      "summary": "Meridian Tranquil's developer, incorporated 2025, shares director Suresh Narayan with an insolvent company and a struck-off company. Land, contractor and complaints show no known issues in the graph.",
+      "evidence": [
+       "Meridian Tranquil -> Meridian Hebbal Estates Pvt Ltd -> director Suresh Narayan -> Silverline Realcon Pvt Ltd (insolvency; he was a director 2015-2023) -> Silverline Meadows (stalled, 52 months delay)",
+       "Meridian Tranquil -> Meridian Hebbal Estates Pvt Ltd -> director Suresh Narayan -> Zenith Landmark Ventures Pvt Ltd (struck off; he was a director 2013-2021)"
+      ]
+     }
+    ],
+    "rejected_drafts": []
+   },
+   {
+    "agent": "concierge",
+    "type": "tool_result",
+    "name": "ask_investigator",
+    "output": {
+     "case_id": "C-ffad117c",
+     "findings": [
+      {
+       "project_id": "PRJ-TRANQUIL",
+       "project": "Meridian Tranquil",
+       "verdict": "CAUTION",
+       "risk_score": 49.2,
+       "summary": "Meridian Tranquil's developer, incorporated 2025, shares director Suresh Narayan with an insolvent company and a struck-off company. Land, contractor and complaints show no known issues in the graph.",
+       "evidence": [
+        "Meridian Tranquil -> Meridian Hebbal Estates Pvt Ltd -> director Suresh Narayan -> Silverline Realcon Pvt Ltd (insolvency; he was a director 2015-2023) -> Silverline Meadows (stalled, 52 months delay)",
+        "Meridian Tranquil -> Meridian Hebbal Estates Pvt Ltd -> director Suresh Narayan -> Zenith Landmark Ventures Pvt Ltd (struck off; he was a director 2013-2021)"
+       ]
+      }
+     ],
+     "investigator_report": "**Meridian Tranquil, Hebbal: CAUTION, graph risk 49.2 (MEDIUM)**\n\n**Surface view:** The project is a 2026 launch of 240 units, 3 and 4 BHK, priced \u20b91.98\u20133.40 crore, with possession promised for 2030. It has no complaints. The developer is Meridian Hebbal Estates Pvt Ltd, which is active, was incorporated in 2025, and trades under the Meridian Urban brand (since 2016). The lender is Malnad Capital.\n\n**Who is behind it**\n- **Current directors:** Imran Patil and Suresh Narayan have both been directors since 2025.\n- **Imran Patil:** He also sits on the boards of Meridian Infra 1 and Meridian Habitats I. Neither has a failure in the graph.\n- **Suresh Narayan:** He is the most central director in the wider network (rank 1 of 30). He sits on six boards across the Sahyadri, Coral Bay, Vrindavan and Meridian groups.\n- **Former directorships (Suresh Narayan):** Silverline Realcon Pvt Ltd (2015\u20132023) and Zenith Landmark Ventures Pvt Ltd (2013\u20132021).\n- **Related group:** The Meridian developer sits in a linked group of 15 companies and 17 people.\n- **Land:** Sy. No. 29/4, Kempapura, is A-khata and 2.9 acres. Bhoomi Land Aggregators Pvt Ltd owned it until 2025, and the graph shows no court cases on it.\n- **Contractor:** Udaya Engineers has 11 other projects, none late or stalled. The graph shows no court cases against it.\n\n**Hidden evidence**\n- Meridian Tranquil \u2192 Meridian Hebbal Estates \u2192 Suresh Narayan \u2192 Silverline Realcon (insolvency; he left in 2023) \u2192 Silverline Meadows (stalled, 52 months late, 11 open complaints).\n- Meridian Tranquil \u2192 Meridian Hebbal Estates \u2192 Suresh Narayan \u2192 Zenith Landmark Ventures (struck off; he left in 2021).\n- The wider group has one pending cheque-bounce case, against Nandi Habitats I LLP (C.C. 7375/2025).\n\n**Verify offline**\n- The RERA ID in the brochure (\u2026/381/\u2026/003521) differs from the one on the granted approval (\u2026/419/\u2026/003552). Check the registration on the RERA portal.\n- Ask the developer about Suresh Narayan's role at Silverline and Zenith, and what financial backing the new company has.\n- Confirm Bhoomi Land Aggregators' title and the sale to the developer with a title lawyer."
+    },
+    "cypher": [],
+    "graph": null
+   }
+  ],
+  "graph": {
+   "nodes": [
+    {
+     "id": "PRJ-TRANQUIL",
+     "kind": "Project",
+     "name": "Meridian Tranquil",
+     "flag": false
+    },
+    {
+     "id": "CMP-MERIDIAN-HEBBAL",
+     "kind": "Company",
+     "name": "Meridian Hebbal Estates Pvt Ltd",
+     "flag": false
+    },
+    {
+     "id": "PER-SURESH",
+     "kind": "Person",
+     "name": "Suresh Narayan",
+     "flag": false
+    },
+    {
+     "id": "CMP-SILVERLINE",
+     "kind": "Company",
+     "name": "Silverline Realcon Pvt Ltd",
+     "flag": true
+    },
+    {
+     "id": "CMP-ZENITH",
+     "kind": "Company",
+     "name": "Zenith Landmark Ventures Pvt Ltd",
+     "flag": true
+    },
+    {
+     "id": "PRJ-SILVERLINE",
+     "kind": "Project",
+     "name": "Silverline Meadows",
+     "flag": true
+    },
+    {
+     "id": "CMP-031",
+     "kind": "Company",
+     "name": "Sahyadri Habitats I LLP",
+     "flag": false
+    },
+    {
+     "id": "CMP-038",
+     "kind": "Company",
+     "name": "Meridian Infra 1 Pvt Ltd",
+     "flag": false
+    },
+    {
+     "id": "CMP-035",
+     "kind": "Company",
+     "name": "Coral Habitats II LLP",
+     "flag": false
+    },
+    {
+     "id": "CMP-033",
+     "kind": "Company",
+     "name": "Sahyadri Devanahalli Projects Pvt Ltd",
+     "flag": false
+    },
+    {
+     "id": "PRJ-059",
+     "kind": "Project",
+     "name": "Sahyadri Haven",
+     "flag": true
+    },
+    {
+     "id": "PRJ-060",
+     "kind": "Project",
+     "name": "Sahyadri Avenue",
+     "flag": true
+    },
+    {
+     "id": "CMP-032",
+     "kind": "Company",
+     "name": "Sahyadri Habitats II LLP",
+     "flag": false
+    },
+    {
+     "id": "CMP-010",
+     "kind": "Company",
+     "name": "Nandi Habitats I LLP",
+     "flag": false
+    },
+    {
+     "id": "CMP-036",
+     "kind": "Company",
+     "name": "Coral Infra 2 Pvt Ltd",
+     "flag": false
+    },
+    {
+     "id": "CMP-037",
+     "kind": "Company",
+     "name": "Meridian Habitats I LLP",
+     "flag": false
+    },
+    {
+     "id": "CMP-034",
+     "kind": "Company",
+     "name": "Coral Realcon Pvt Ltd",
+     "flag": false
+    },
+    {
+     "id": "CMP-039",
+     "kind": "Company",
+     "name": "Vrindavan Realcon Pvt Ltd",
+     "flag": false
+    },
+    {
+     "id": "CMP-040",
+     "kind": "Company",
+     "name": "Vrindavan Kanakapura Projects Pvt Ltd",
+     "flag": false
+    },
+    {
+     "id": "CMP-011",
+     "kind": "Company",
+     "name": "Nandi Yelahanka Projects Pvt Ltd",
+     "flag": false
+    },
+    {
+     "id": "PER-050",
+     "kind": "Person",
+     "name": "Tejas Rao",
+     "flag": false
+    },
+    {
+     "id": "PER-051",
+     "kind": "Person",
+     "name": "Kavya Murthy",
+     "flag": false
+    },
+    {
+     "id": "PER-084",
+     "kind": "Person",
+     "name": "Tejas Krishnan",
+     "flag": false
+    },
+    {
+     "id": "PER-081",
+     "kind": "Person",
+     "name": "Kavya Bhat",
+     "flag": false
+    },
+    {
+     "id": "PER-083",
+     "kind": "Person",
+     "name": "Harsha Gowda",
+     "flag": false
+    },
+    {
+     "id": "PER-082",
+     "kind": "Person",
+     "name": "Farhan Shenoy",
+     "flag": false
+    },
+    {
+     "id": "PER-085",
+     "kind": "Person",
+     "name": "Madhuri Acharya",
+     "flag": false
+    },
+    {
+     "id": "PER-086",
+     "kind": "Person",
+     "name": "Yash Murthy",
+     "flag": false
+    },
+    {
+     "id": "PER-087",
+     "kind": "Person",
+     "name": "Joseph Menon",
+     "flag": false
+    },
+    {
+     "id": "PER-089",
+     "kind": "Person",
+     "name": "Imran Patil",
+     "flag": false
+    },
+    {
+     "id": "PER-092",
+     "kind": "Person",
+     "name": "Joseph Murthy",
+     "flag": false
+    },
+    {
+     "id": "LND-088",
+     "kind": "LandParcel",
+     "name": "Sy. No. 29/4, Kempapura",
+     "flag": false
+    },
+    {
+     "id": "CMP-001",
+     "kind": "Company",
+     "name": "Bhoomi Land Aggregators Pvt Ltd",
+     "flag": false
+    },
+    {
+     "id": "CON-008",
+     "kind": "Contractor",
+     "name": "Udaya Engineers",
+     "flag": false
+    }
+   ],
+   "edges": [
+    {
+     "src": "PRJ-TRANQUIL",
+     "dst": "CMP-MERIDIAN-HEBBAL",
+     "type": "DEVELOPS",
+     "hot": true
+    },
+    {
+     "src": "CMP-MERIDIAN-HEBBAL",
+     "dst": "PER-SURESH",
+     "type": "DIRECTOR_OF",
+     "hot": true
+    },
+    {
+     "src": "PER-SURESH",
+     "dst": "CMP-SILVERLINE",
+     "type": "DIRECTOR_OF",
+     "hot": true
+    },
+    {
+     "src": "PER-SURESH",
+     "dst": "CMP-ZENITH",
+     "type": "DIRECTOR_OF",
+     "hot": false
+    },
+    {
+     "src": "CMP-SILVERLINE",
+     "dst": "PRJ-SILVERLINE",
+     "type": "DEVELOPS",
+     "hot": false
+    },
+    {
+     "src": "CMP-033",
+     "dst": "PRJ-059",
+     "type": "DEVELOPS"
+    },
+    {
+     "src": "CMP-033",
+     "dst": "PRJ-060",
+     "type": "DEVELOPS"
+    },
+    {
+     "src": "CMP-MERIDIAN-HEBBAL",
+     "dst": "PRJ-TRANQUIL",
+     "type": "DEVELOPS"
+    },
+    {
+     "src": "PER-050",
+     "dst": "CMP-010",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-051",
+     "dst": "CMP-010",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-050",
+     "dst": "CMP-011",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-051",
+     "dst": "CMP-011",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-084",
+     "dst": "CMP-011",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-081",
+     "dst": "CMP-031",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-083",
+     "dst": "CMP-031",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-SURESH",
+     "dst": "CMP-031",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-082",
+     "dst": "CMP-032",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-083",
+     "dst": "CMP-032",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-081",
+     "dst": "CMP-033",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-082",
+     "dst": "CMP-033",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-084",
+     "dst": "CMP-034",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-085",
+     "dst": "CMP-034",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-086",
+     "dst": "CMP-034",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-SURESH",
+     "dst": "CMP-034",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-084",
+     "dst": "CMP-035",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-085",
+     "dst": "CMP-035",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-086",
+     "dst": "CMP-035",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-084",
+     "dst": "CMP-036",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-085",
+     "dst": "CMP-036",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-086",
+     "dst": "CMP-036",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-082",
+     "dst": "CMP-037",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-087",
+     "dst": "CMP-037",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-089",
+     "dst": "CMP-037",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-087",
+     "dst": "CMP-038",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-089",
+     "dst": "CMP-038",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-092",
+     "dst": "CMP-039",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-SURESH",
+     "dst": "CMP-039",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-092",
+     "dst": "CMP-040",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-089",
+     "dst": "CMP-MERIDIAN-HEBBAL",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PER-SURESH",
+     "dst": "CMP-MERIDIAN-HEBBAL",
+     "type": "DIRECTOR_OF"
+    },
+    {
+     "src": "PRJ-TRANQUIL",
+     "dst": "LND-088",
+     "type": "BUILT_ON"
+    },
+    {
+     "src": "LND-088",
+     "dst": "CMP-001",
+     "type": "PREVIOUSLY_OWNED_BY"
+    },
+    {
+     "src": "CON-008",
+     "dst": "PRJ-TRANQUIL",
+     "type": "BUILDS"
+    }
+   ]
+  },
+  "usage": {
+   "input": 17809,
+   "output": 2656
+  }
+ },
+ "recorded_at": "2026-10-18 20:46",
+ "models": {
+  "concierge": "claude-haiku-5-5",
+  "investigator": "claude-sonnet-5-5"
+ }
+}

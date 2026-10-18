@@ -1,0 +1,848 @@
+{
+ "kind": "scenario",
+ "recorded_at": "2026-10-18 20:46",
+ "models": {
+  "concierge": "claude-haiku-5-5",
+  "investigator": "claude-sonnet-5-5"
+ },
+ "steps": [
+  {
+   "kind": "ask",
+   "question": "Shortlist Banyan Grove Whispering Woods and Greenfield Sarjapur Greens for me, and always check the land title before recommending anything.",
+   "result": {
+    "text": "**Both are shortlisted and both pass the land title check, with risk 0/100 (LOW) for each.**\n\n- **Banyan Grove Whispering Woods (PRJ-081):** The land is A-khata, Sy. No. 128/5, Kodathi (10.5 acres). The previous owner was Vidya Khan, an individual, until 2024. The graph shows no court case on the land or with that owner. Possession is promised for 2029.\n- **Greenfield Sarjapur Greens (PRJ-082):** The land is A-khata, Sy. No. 228/8, Kodathi (7.3 acres). The previous owner was Mary Gowda, an individual, until 2022. The graph shows no court case. The project is 2 months late against a 2027 possession date. Malnad Capital is the lender.\n\nThe graph shows no red flags within 4 hops for either project. That means no known connection, not a guarantee.\n\n**Next step:** Before you commit, get the encumbrance certificate and full title deed history for both plots. For Greenfield, ask whether the land is mortgaged to Malnad Capital. Also confirm the A-khata status and RERA registration on the official portals.",
+    "events": [
+     {
+      "agent": "concierge",
+      "type": "thought",
+      "text": "I'll look up both projects so I can shortlist them correctly, and save your standing rule about land title checks."
+     },
+     {
+      "agent": "concierge",
+      "type": "tool_call",
+      "name": "search_projects",
+      "input": {
+       "name": "Banyan Grove Whispering Woods"
+      }
+     },
+     {
+      "agent": "concierge",
+      "type": "tool_result",
+      "name": "search_projects",
+      "output": {
+       "status": "ANSWERED_WITH_PATH",
+       "projects": [
+        {
+         "id": "PRJ-081",
+         "name": "Banyan Grove Whispering Woods",
+         "locality": "Sarjapur Road",
+         "status": "under_construction",
+         "bhk": [
+          2,
+          3
+         ],
+         "price_min_lakh": 92,
+         "price_max_lakh": 158,
+         "launch_year": 2025,
+         "company": "Banyan Habitats III LLP",
+         "brand": "Banyan Grove Developers",
+         "risk_score": 0.0,
+         "risk_band": "LOW"
+        }
+       ],
+       "count": 1
+      },
+      "cypher": [
+       "CALL db.idx.fulltext.queryNodes('Project', 'Banyan* Grove* Whispering* Woods*') YIELD node RETURN node.id AS id LIMIT 10",
+       "MATCH (p:Project)<-[:DEVELOPS]-(c:Company)\nOPTIONAL MATCH (g:Group)-[:CONTROLS]->(c)\nWITH p, c, g\nWHERE ($locality IS NULL OR toLower(p.locality) CONTAINS toLower($locality))\n  AND ($budget IS NULL OR p.price_min_lakh <= $budget)\n  AND ($bhk IS NULL OR $bhk IN p.bhk)\n  AND ($ids IS NULL OR p.id IN $ids)\n  AND ($include_stalled OR p.status <> 'stalled')\nRETURN p.id AS id, p.name AS name, p.locality AS locality, p.status AS status, p.bhk AS bhk,\n       p.price_min_lakh AS price_min_lakh, p.price_max_lakh AS price_max_lakh,\n       p.launch_year AS launch_year, c.name AS company, g.name AS brand\nORDER BY p.price_min_lakh\nLIMIT $limit",
+       "-- risk scored per project with trace_risk's path query"
+      ],
+      "graph": null
+     },
+     {
+      "agent": "concierge",
+      "type": "tool_call",
+      "name": "search_projects",
+      "input": {
+       "name": "Greenfield Sarjapur Greens"
+      }
+     },
+     {
+      "agent": "concierge",
+      "type": "tool_result",
+      "name": "search_projects",
+      "output": {
+       "status": "ANSWERED_WITH_PATH",
+       "projects": [
+        {
+         "id": "PRJ-082",
+         "name": "Greenfield Sarjapur Greens",
+         "locality": "Sarjapur Road",
+         "status": "under_construction",
+         "bhk": [
+          2,
+          3
+         ],
+         "price_min_lakh": 88,
+         "price_max_lakh": 150,
+         "launch_year": 2023,
+         "company": "Greenfield Devanahalli Projects Pvt Ltd",
+         "brand": "Greenfield Habitats",
+         "risk_score": 0.0,
+         "risk_band": "LOW"
+        }
+       ],
+       "count": 1
+      },
+      "cypher": [
+       "CALL db.idx.fulltext.queryNodes('Project', 'Greenfield* Sarjapur* Greens*') YIELD node RETURN node.id AS id LIMIT 10",
+       "MATCH (p:Project)<-[:DEVELOPS]-(c:Company)\nOPTIONAL MATCH (g:Group)-[:CONTROLS]->(c)\nWITH p, c, g\nWHERE ($locality IS NULL OR toLower(p.locality) CONTAINS toLower($locality))\n  AND ($budget IS NULL OR p.price_min_lakh <= $budget)\n  AND ($bhk IS NULL OR $bhk IN p.bhk)\n  AND ($ids IS NULL OR p.id IN $ids)\n  AND ($include_stalled OR p.status <> 'stalled')\nRETURN p.id AS id, p.name AS name, p.locality AS locality, p.status AS status, p.bhk AS bhk,\n       p.price_min_lakh AS price_min_lakh, p.price_max_lakh AS price_max_lakh,\n       p.launch_year AS launch_year, c.name AS company, g.name AS brand\nORDER BY p.price_min_lakh\nLIMIT $limit",
+       "-- risk scored per project with trace_risk's path query"
+      ],
+      "graph": null
+     },
+     {
+      "agent": "concierge",
+      "type": "tool_call",
+      "name": "remember",
+      "input": {
+       "type": "rule",
+       "value": "Always check the land title before recommending any project."
+      }
+     },
+     {
+      "agent": "concierge",
+      "type": "tool_result",
+      "name": "remember",
+      "output": {
+       "stored": true,
+       "type": "rule",
+       "value": "Always check the land title before recommending any project."
+      },
+      "cypher": [],
+      "graph": null
+     },
+     {
+      "agent": "concierge",
+      "type": "thought",
+      "text": "Both projects were found. Now I'll shortlist them and have the Investigator check land title, since your rule requires it before any recommendation."
+     },
+     {
+      "agent": "concierge",
+      "type": "tool_call",
+      "name": "shortlist",
+      "input": {
+       "action": "add",
+       "project_id": "PRJ-081"
+      }
+     },
+     {
+      "agent": "concierge",
+      "type": "tool_result",
+      "name": "shortlist",
+      "output": {
+       "shortlisted": "Banyan Grove Whispering Woods",
+       "risk_score_now": 0.0
+      },
+      "cypher": [],
+      "graph": null
+     },
+     {
+      "agent": "concierge",
+      "type": "tool_call",
+      "name": "shortlist",
+      "input": {
+       "action": "add",
+       "project_id": "PRJ-082"
+      }
+     },
+     {
+      "agent": "concierge",
+      "type": "tool_result",
+      "name": "shortlist",
+      "output": {
+       "shortlisted": "Greenfield Sarjapur Greens",
+       "risk_score_now": 0.0
+      },
+      "cypher": [],
+      "graph": null
+     },
+     {
+      "agent": "concierge",
+      "type": "tool_call",
+      "name": "ask_investigator",
+      "input": {
+       "question": "For PRJ-081 Banyan Grove Whispering Woods (Sarjapur Road, developer Banyan Habitats III LLP, brand Banyan Grove Developers) and PRJ-082 Greenfield Sarjapur Greens (Sarjapur Road, developer Greenfield Devanahalli Projects Pvt Ltd, brand Greenfield Habitats): check the land title for each project. Report the title status, any encumbrances, disputes, or ownership chain gaps, and any risk findings, with dates and qualifiers for any people or entities involved."
+      }
+     },
+     {
+      "agent": "concierge",
+      "type": "handoff",
+      "case_id": "C-3d35860e",
+      "question": "For PRJ-081 Banyan Grove Whispering Woods (Sarjapur Road, developer Banyan Habitats III LLP, brand Banyan Grove Developers) and PRJ-082 Greenfield Sarjapur Greens (Sarjapur Road, developer Greenfield Devanahalli Projects Pvt Ltd, brand Greenfield Habitats): check the land title for each project. Report the title status, any encumbrances, disputes, or ownership chain gaps, and any risk findings, with dates and qualifiers for any people or entities involved.",
+      "brief": "Rules you must follow: Always check the land title before recommending any project."
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_call",
+      "name": "recall_findings",
+      "input": {
+       "project_id": "PRJ-081"
+      }
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_result",
+      "name": "recall_findings",
+      "output": {
+       "status": "NOT_IN_GRAPH",
+       "message": "No earlier finding about this project in the buyer's memory."
+      },
+      "cypher": [],
+      "graph": null
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_call",
+      "name": "recall_findings",
+      "input": {
+       "project_id": "PRJ-082"
+      }
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_result",
+      "name": "recall_findings",
+      "output": {
+       "status": "NOT_IN_GRAPH",
+       "message": "No earlier finding about this project in the buyer's memory."
+      },
+      "cypher": [],
+      "graph": null
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_call",
+      "name": "project_profile",
+      "input": {
+       "project_id": "PRJ-081"
+      }
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_result",
+      "name": "project_profile",
+      "output": {
+       "status": "ANSWERED_WITH_PATH",
+       "project": {
+        "bhk": [
+         2,
+         3
+        ],
+        "delay_months": 0,
+        "id": "PRJ-081",
+        "launch_year": 2025,
+        "locality": "Sarjapur Road",
+        "name": "Banyan Grove Whispering Woods",
+        "price_max_lakh": 158,
+        "price_min_lakh": 92,
+        "promised_possession": 2029,
+        "rera_id": "PRM/KA/RERA/1251/391/PR/250415/003589",
+        "status": "under_construction",
+        "units": 120
+       },
+       "company": "Banyan Habitats III LLP",
+       "company_status": "active",
+       "incorporated": 2013,
+       "brand": "Banyan Grove Developers",
+       "brand_since": 2004,
+       "directors": [
+        "Usha Iyer",
+        "Ritu Joshi",
+        "Raghav Kini"
+       ],
+       "land": "Sy. No. 128/5, Kodathi",
+       "khata": "A",
+       "acres": 10.5,
+       "contractor": "Sterling EPC",
+       "lender": null,
+       "approvals": [
+        {
+         "type": "BBMP plan",
+         "status": "granted",
+         "year": 2024,
+         "ref": null
+        },
+        {
+         "type": "RERA",
+         "status": "granted",
+         "year": 2025,
+         "ref": "PRM/KA/RERA/1251/355/PR/250605/003594"
+        },
+        {
+         "type": "CC",
+         "status": "granted",
+         "year": 2025,
+         "ref": null
+        }
+       ],
+       "complaints": {
+        "open": 0,
+        "resolved": 1,
+        "by_category": [
+         {
+          "status": "resolved",
+          "category": "delay",
+          "n": 1
+         }
+        ]
+       }
+      },
+      "cypher": [
+       "MATCH (p:Project {id: $id})<-[:DEVELOPS]-(c:Company)\nOPTIONAL MATCH (g:Group)-[:CONTROLS]->(c)\nOPTIONAL MATCH (d:Person)-[dir:DIRECTOR_OF]->(c)\nOPTIONAL MATCH (p)-[:BUILT_ON]->(l:LandParcel)\nOPTIONAL MATCH (con:Contractor)-[:BUILDS]->(p)\nOPTIONAL MATCH (len:Lender)-[:FINANCES]->(p)\nRETURN p {.*} AS project, c.name AS company, c.status AS company_status, c.incorporated AS incorporated,\n       g.name AS brand, g.brand_since AS brand_since,\n       collect(DISTINCT d.name) AS directors, l.name AS land, l.khata AS khata, l.acres AS acres,\n       con.name AS contractor, len.name AS lender",
+       "MATCH (p:Project {id: $id})-[:HAS_APPROVAL]->(a:Approval)\nRETURN a.type AS type, a.status AS status, a.year AS year, a.ref AS ref ORDER BY a.year",
+       "MATCH (p:Project {id: $id})<-[:AGAINST]-(c:Complaint)\nRETURN c.status AS status, c.category AS category, count(c) AS n"
+      ],
+      "graph": null
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_call",
+      "name": "project_profile",
+      "input": {
+       "project_id": "PRJ-082"
+      }
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_result",
+      "name": "project_profile",
+      "output": {
+       "status": "ANSWERED_WITH_PATH",
+       "project": {
+        "bhk": [
+         2,
+         3
+        ],
+        "delay_months": 2,
+        "id": "PRJ-082",
+        "launch_year": 2023,
+        "locality": "Sarjapur Road",
+        "name": "Greenfield Sarjapur Greens",
+        "price_max_lakh": 150,
+        "price_min_lakh": 88,
+        "promised_possession": 2027,
+        "rera_id": "PRM/KA/RERA/1251/366/PR/230301/003616",
+        "status": "under_construction",
+        "units": 560
+       },
+       "company": "Greenfield Devanahalli Projects Pvt Ltd",
+       "company_status": "active",
+       "incorporated": 2010,
+       "brand": "Greenfield Habitats",
+       "brand_since": 2003,
+       "directors": [
+        "Shruti Hegde",
+        "Ganesh Acharya"
+       ],
+       "land": "Sy. No. 228/8, Kodathi",
+       "khata": "A",
+       "acres": 7.3,
+       "contractor": "Vajra Engineering",
+       "lender": "Malnad Capital",
+       "approvals": [
+        {
+         "type": "BBMP plan",
+         "status": "granted",
+         "year": 2022,
+         "ref": null
+        },
+        {
+         "type": "RERA",
+         "status": "granted",
+         "year": 2023,
+         "ref": "PRM/KA/RERA/1251/303/PR/230127/003626"
+        },
+        {
+         "type": "CC",
+         "status": "granted",
+         "year": 2023,
+         "ref": null
+        }
+       ],
+       "complaints": {
+        "open": 0,
+        "resolved": 1,
+        "by_category": [
+         {
+          "status": "resolved",
+          "category": "delay",
+          "n": 1
+         }
+        ]
+       }
+      },
+      "cypher": [
+       "MATCH (p:Project {id: $id})<-[:DEVELOPS]-(c:Company)\nOPTIONAL MATCH (g:Group)-[:CONTROLS]->(c)\nOPTIONAL MATCH (d:Person)-[dir:DIRECTOR_OF]->(c)\nOPTIONAL MATCH (p)-[:BUILT_ON]->(l:LandParcel)\nOPTIONAL MATCH (con:Contractor)-[:BUILDS]->(p)\nOPTIONAL MATCH (len:Lender)-[:FINANCES]->(p)\nRETURN p {.*} AS project, c.name AS company, c.status AS company_status, c.incorporated AS incorporated,\n       g.name AS brand, g.brand_since AS brand_since,\n       collect(DISTINCT d.name) AS directors, l.name AS land, l.khata AS khata, l.acres AS acres,\n       con.name AS contractor, len.name AS lender",
+       "MATCH (p:Project {id: $id})-[:HAS_APPROVAL]->(a:Approval)\nRETURN a.type AS type, a.status AS status, a.year AS year, a.ref AS ref ORDER BY a.year",
+       "MATCH (p:Project {id: $id})<-[:AGAINST]-(c:Complaint)\nRETURN c.status AS status, c.category AS category, count(c) AS n"
+      ],
+      "graph": null
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_call",
+      "name": "land_title_check",
+      "input": {
+       "project_id": "PRJ-081"
+      }
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_result",
+      "name": "land_title_check",
+      "output": {
+       "status": "NOT_IN_GRAPH",
+       "project": "Banyan Grove Whispering Woods",
+       "land": "Sy. No. 128/5, Kodathi",
+       "khata": "A",
+       "acres": 10.5,
+       "previous_owner": "Vidya Khan",
+       "owner_kind": "Person",
+       "owned_until": 2024,
+       "court_cases": [],
+       "verdict": "No title issues found"
+      },
+      "cypher": [
+       "MATCH (p:Project {id: $id})-[b:BUILT_ON]->(l:LandParcel)\nOPTIONAL MATCH (l)-[po:PREVIOUSLY_OWNED_BY]->(o)\nOPTIONAL MATCH (k:CourtCase)-[:INVOLVES]->(x) WHERE x = l OR x = o\nRETURN p.name AS project, l.id AS land_id, l.name AS land, l.khata AS khata, l.acres AS acres,\n       o.id AS owner_id, o.name AS previous_owner, o.kind AS owner_kind, po.until AS owned_until,\n       collect(DISTINCT CASE WHEN k IS NULL THEN NULL ELSE\n           {id: k.id, case_no: k.case_no, court: k.court, nature: k.nature, status: k.status,\n            filed: k.filed, parties: k.parties, involves: x.name} END) AS cases"
+      ],
+      "graph": {
+       "nodes": [
+        {
+         "id": "PRJ-081",
+         "kind": "Project",
+         "name": "Banyan Grove Whispering Woods",
+         "flag": false
+        },
+        {
+         "id": "LND-089",
+         "kind": "LandParcel",
+         "name": "Sy. No. 128/5, Kodathi",
+         "flag": false
+        },
+        {
+         "id": "PER-020",
+         "kind": "Person",
+         "name": "Vidya Khan",
+         "flag": false
+        }
+       ],
+       "edges": [
+        {
+         "src": "PRJ-081",
+         "dst": "LND-089",
+         "type": "BUILT_ON"
+        },
+        {
+         "src": "LND-089",
+         "dst": "PER-020",
+         "type": "PREVIOUSLY_OWNED_BY"
+        }
+       ]
+      }
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_call",
+      "name": "land_title_check",
+      "input": {
+       "project_id": "PRJ-082"
+      }
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_result",
+      "name": "land_title_check",
+      "output": {
+       "status": "NOT_IN_GRAPH",
+       "project": "Greenfield Sarjapur Greens",
+       "land": "Sy. No. 228/8, Kodathi",
+       "khata": "A",
+       "acres": 7.3,
+       "previous_owner": "Mary Gowda",
+       "owner_kind": "Person",
+       "owned_until": 2022,
+       "court_cases": [],
+       "verdict": "No title issues found"
+      },
+      "cypher": [
+       "MATCH (p:Project {id: $id})-[b:BUILT_ON]->(l:LandParcel)\nOPTIONAL MATCH (l)-[po:PREVIOUSLY_OWNED_BY]->(o)\nOPTIONAL MATCH (k:CourtCase)-[:INVOLVES]->(x) WHERE x = l OR x = o\nRETURN p.name AS project, l.id AS land_id, l.name AS land, l.khata AS khata, l.acres AS acres,\n       o.id AS owner_id, o.name AS previous_owner, o.kind AS owner_kind, po.until AS owned_until,\n       collect(DISTINCT CASE WHEN k IS NULL THEN NULL ELSE\n           {id: k.id, case_no: k.case_no, court: k.court, nature: k.nature, status: k.status,\n            filed: k.filed, parties: k.parties, involves: x.name} END) AS cases"
+      ],
+      "graph": {
+       "nodes": [
+        {
+         "id": "PRJ-082",
+         "kind": "Project",
+         "name": "Greenfield Sarjapur Greens",
+         "flag": false
+        },
+        {
+         "id": "LND-090",
+         "kind": "LandParcel",
+         "name": "Sy. No. 228/8, Kodathi",
+         "flag": false
+        },
+        {
+         "id": "PER-007",
+         "kind": "Person",
+         "name": "Mary Gowda",
+         "flag": false
+        }
+       ],
+       "edges": [
+        {
+         "src": "PRJ-082",
+         "dst": "LND-090",
+         "type": "BUILT_ON"
+        },
+        {
+         "src": "LND-090",
+         "dst": "PER-007",
+         "type": "PREVIOUSLY_OWNED_BY"
+        }
+       ]
+      }
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_call",
+      "name": "trace_risk",
+      "input": {
+       "project_id": "PRJ-081"
+      }
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_result",
+      "name": "trace_risk",
+      "output": {
+       "project_id": "PRJ-081",
+       "project": "Banyan Grove Whispering Woods",
+       "truncated": false,
+       "direct_flags": [],
+       "risk_score": 0.0,
+       "band": "LOW",
+       "katz_K": 0.0,
+       "n_flags": 0,
+       "n_paths": 0,
+       "by_flag_kind": {},
+       "top_evidence": [],
+       "model": {
+        "beta": 0.6,
+        "max_hops": 4
+       },
+       "status": "NOT_IN_GRAPH",
+       "note": "No red flag is connected to this project within 4 hops. That means no known connection in the graph, not a guarantee that the project is safe.",
+       "how_to_read": "risk_score 0-100 = 100*(1-exp(-K)); K sums severity * 0.6^(hops-1) * edge weights over every path to a red flag within 4 hops. share_pct = share of K from that flag; n_paths = how many distinct paths reach it."
+      },
+      "cypher": [
+       "MATCH path = (p:Project {id: $id})-[:DEVELOPS|DIRECTOR_OF|CONTROLS|BUILT_ON|PREVIOUSLY_OWNED_BY|INVOLVES|AGAINST|HAS_APPROVAL|BUILDS*1..4]-(f:RedFlag)\nWHERE f <> p\n  AND none(n IN nodes(path)[1..-1] WHERE n.kind = 'Project')\n  AND size([r IN relationships(path) WHERE type(r) = 'PREVIOUSLY_OWNED_BY']) <= 1\nRETURN f.id AS flag_id, f.kind AS flag_kind, f.name AS flag_name, f.reason AS reason,\n       f.severity AS severity, f.created_at AS created_at, length(path) AS hops,\n       [n IN nodes(path) | {id: n.id, kind: n.kind, name: n.name}] AS nodes,\n       [r IN relationships(path) | type(r)] AS rels\nLIMIT 2001"
+      ],
+      "graph": {
+       "nodes": [],
+       "edges": []
+      }
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_call",
+      "name": "trace_risk",
+      "input": {
+       "project_id": "PRJ-082"
+      }
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_result",
+      "name": "trace_risk",
+      "output": {
+       "project_id": "PRJ-082",
+       "project": "Greenfield Sarjapur Greens",
+       "truncated": false,
+       "direct_flags": [],
+       "risk_score": 0.0,
+       "band": "LOW",
+       "katz_K": 0.0,
+       "n_flags": 0,
+       "n_paths": 0,
+       "by_flag_kind": {},
+       "top_evidence": [],
+       "model": {
+        "beta": 0.6,
+        "max_hops": 4
+       },
+       "status": "NOT_IN_GRAPH",
+       "note": "No red flag is connected to this project within 4 hops. That means no known connection in the graph, not a guarantee that the project is safe.",
+       "how_to_read": "risk_score 0-100 = 100*(1-exp(-K)); K sums severity * 0.6^(hops-1) * edge weights over every path to a red flag within 4 hops. share_pct = share of K from that flag; n_paths = how many distinct paths reach it."
+      },
+      "cypher": [
+       "MATCH path = (p:Project {id: $id})-[:DEVELOPS|DIRECTOR_OF|CONTROLS|BUILT_ON|PREVIOUSLY_OWNED_BY|INVOLVES|AGAINST|HAS_APPROVAL|BUILDS*1..4]-(f:RedFlag)\nWHERE f <> p\n  AND none(n IN nodes(path)[1..-1] WHERE n.kind = 'Project')\n  AND size([r IN relationships(path) WHERE type(r) = 'PREVIOUSLY_OWNED_BY']) <= 1\nRETURN f.id AS flag_id, f.kind AS flag_kind, f.name AS flag_name, f.reason AS reason,\n       f.severity AS severity, f.created_at AS created_at, length(path) AS hops,\n       [n IN nodes(path) | {id: n.id, kind: n.kind, name: n.name}] AS nodes,\n       [r IN relationships(path) | type(r)] AS rels\nLIMIT 2001"
+      ],
+      "graph": {
+       "nodes": [],
+       "edges": []
+      }
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_call",
+      "name": "record_finding",
+      "input": {
+       "project_id": "PRJ-081",
+       "verdict": "SAFE",
+       "risk_score": 0,
+       "summary": "A-khata land (Sy. No. 128/5, Kodathi), previous owner Vidya Khan until 2024, no court cases recorded in the graph; no red flag within 4 hops.",
+       "evidence": [
+        "Banyan Grove Whispering Woods -> built on Sy. No. 128/5, Kodathi (A khata, 10.5 acres) -> previously owned by Vidya Khan (until 2024); no court case connected in the graph"
+       ]
+      }
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_result",
+      "name": "record_finding",
+      "output": {
+       "status": "VERIFIED",
+       "recorded": true,
+       "verdict": "SAFE",
+       "risk_score": 0.0,
+       "corrections": []
+      },
+      "cypher": [],
+      "graph": null
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_call",
+      "name": "record_finding",
+      "input": {
+       "project_id": "PRJ-082",
+       "verdict": "SAFE",
+       "risk_score": 0,
+       "summary": "A-khata land (Sy. No. 228/8, Kodathi), previous owner Mary Gowda until 2022, no court cases recorded in the graph; no red flag within 4 hops.",
+       "evidence": [
+        "Greenfield Sarjapur Greens -> built on Sy. No. 228/8, Kodathi (A khata, 7.3 acres) -> previously owned by Mary Gowda (until 2022); no court case connected in the graph"
+       ]
+      }
+     },
+     {
+      "agent": "investigator",
+      "type": "tool_result",
+      "name": "record_finding",
+      "output": {
+       "status": "VERIFIED",
+       "recorded": true,
+       "verdict": "SAFE",
+       "risk_score": 0.0,
+       "corrections": []
+      },
+      "cypher": [],
+      "graph": null
+     },
+     {
+      "agent": "investigator",
+      "type": "case_closed",
+      "case_id": "C-3d35860e",
+      "findings": [
+       {
+        "project_id": "PRJ-081",
+        "project": "Banyan Grove Whispering Woods",
+        "verdict": "SAFE",
+        "risk_score": 0.0,
+        "summary": "A-khata land (Sy. No. 128/5, Kodathi), previous owner Vidya Khan until 2024, no court cases recorded in the graph; no red flag within 4 hops.",
+        "evidence": [
+         "Banyan Grove Whispering Woods -> built on Sy. No. 128/5, Kodathi (A khata, 10.5 acres) -> previously owned by Vidya Khan (until 2024); no court case connected in the graph"
+        ]
+       },
+       {
+        "project_id": "PRJ-082",
+        "project": "Greenfield Sarjapur Greens",
+        "verdict": "SAFE",
+        "risk_score": 0.0,
+        "summary": "A-khata land (Sy. No. 228/8, Kodathi), previous owner Mary Gowda until 2022, no court cases recorded in the graph; no red flag within 4 hops.",
+        "evidence": [
+         "Greenfield Sarjapur Greens -> built on Sy. No. 228/8, Kodathi (A khata, 7.3 acres) -> previously owned by Mary Gowda (until 2022); no court case connected in the graph"
+        ]
+       }
+      ],
+      "rejected_drafts": []
+     },
+     {
+      "agent": "concierge",
+      "type": "tool_result",
+      "name": "ask_investigator",
+      "output": {
+       "case_id": "C-3d35860e",
+       "findings": [
+        {
+         "project_id": "PRJ-081",
+         "project": "Banyan Grove Whispering Woods",
+         "verdict": "SAFE",
+         "risk_score": 0.0,
+         "summary": "A-khata land (Sy. No. 128/5, Kodathi), previous owner Vidya Khan until 2024, no court cases recorded in the graph; no red flag within 4 hops.",
+         "evidence": [
+          "Banyan Grove Whispering Woods -> built on Sy. No. 128/5, Kodathi (A khata, 10.5 acres) -> previously owned by Vidya Khan (until 2024); no court case connected in the graph"
+         ]
+        },
+        {
+         "project_id": "PRJ-082",
+         "project": "Greenfield Sarjapur Greens",
+         "verdict": "SAFE",
+         "risk_score": 0.0,
+         "summary": "A-khata land (Sy. No. 228/8, Kodathi), previous owner Mary Gowda until 2022, no court cases recorded in the graph; no red flag within 4 hops.",
+         "evidence": [
+          "Greenfield Sarjapur Greens -> built on Sy. No. 228/8, Kodathi (A khata, 7.3 acres) -> previously owned by Mary Gowda (until 2022); no court case connected in the graph"
+         ]
+        }
+       ],
+       "investigator_report": "**Case C-3d35860e: land title check**\n\nNeither project had an earlier finding in the buyer's memory.\n\n**PRJ-081 Banyan Grove Whispering Woods: SAFE, risk 0 (LOW)**\n- **Surface view:** Under construction, 2\u20133 BHK, \u20b992\u2013158 lakh. Possession is promised for 2029. Banyan Habitats III LLP is active and was incorporated in 2013. The RERA, BBMP plan and CC approvals are granted. One delay complaint is resolved and none are open.\n- **Title chain:** The project sits on Sy. No. 128/5, Kodathi, which is A-khata land of 10.5 acres. The previous owner was Vidya Khan, an individual, who owned it until 2024. Chain: project \u2192 land parcel \u2192 Vidya Khan (owner until 2024).\n- **Disputes and encumbrances:** The graph has no court case connected to the land or to the previous owner. The graph also links no red flag to the project within 4 hops. That means no known connection in the graph, not a guarantee.\n\n**PRJ-082 Greenfield Sarjapur Greens: SAFE, risk 0 (LOW)**\n- **Surface view:** Under construction, 2\u20133 BHK, \u20b988\u2013150 lakh, 560 units. It is running 2 months late against a 2027 possession date. Greenfield Devanahalli Projects Pvt Ltd is active and was incorporated in 2010. Malnad Capital is the lender and Vajra Engineering the contractor. The approvals are granted. One delay complaint is resolved and none are open.\n- **Title chain:** The project sits on Sy. No. 228/8, Kodathi, which is A-khata land of 7.3 acres. The previous owner was Mary Gowda, an individual, who owned it until 2022. Chain: project \u2192 land parcel \u2192 Mary Gowda (owner until 2022).\n- **Disputes and encumbrances:** The graph has no court case connected to the land or to the previous owner. It also links no red flag to the project within 4 hops.\n\nBoth findings were verified and recorded.\n\n**What to verify offline for both projects**\n- Check the encumbrance certificate and the title deed history for the full ownership chain. The graph only shows one previous owner for each plot.\n- Look for any gap or sale between the previous owner's end year (2024 for PRJ-081, 2022 for PRJ-082) and the developer's acquisition.\n- Confirm the A-khata status and the RERA registration on the official portals.\n- Check for any mortgage on the land. The graph shows no lender for PRJ-081. Malnad Capital finances PRJ-082, so ask whether the land is charged to it."
+      },
+      "cypher": [],
+      "graph": null
+     }
+    ],
+    "graph": {
+     "nodes": [
+      {
+       "id": "PRJ-081",
+       "kind": "Project",
+       "name": "Banyan Grove Whispering Woods",
+       "flag": false
+      },
+      {
+       "id": "LND-089",
+       "kind": "LandParcel",
+       "name": "Sy. No. 128/5, Kodathi",
+       "flag": false
+      },
+      {
+       "id": "PER-020",
+       "kind": "Person",
+       "name": "Vidya Khan",
+       "flag": false
+      },
+      {
+       "id": "PRJ-082",
+       "kind": "Project",
+       "name": "Greenfield Sarjapur Greens",
+       "flag": false
+      },
+      {
+       "id": "LND-090",
+       "kind": "LandParcel",
+       "name": "Sy. No. 228/8, Kodathi",
+       "flag": false
+      },
+      {
+       "id": "PER-007",
+       "kind": "Person",
+       "name": "Mary Gowda",
+       "flag": false
+      }
+     ],
+     "edges": [
+      {
+       "src": "PRJ-081",
+       "dst": "LND-089",
+       "type": "BUILT_ON"
+      },
+      {
+       "src": "LND-089",
+       "dst": "PER-020",
+       "type": "PREVIOUSLY_OWNED_BY"
+      },
+      {
+       "src": "PRJ-082",
+       "dst": "LND-090",
+       "type": "BUILT_ON"
+      },
+      {
+       "src": "LND-090",
+       "dst": "PER-007",
+       "type": "PREVIOUSLY_OWNED_BY"
+      }
+     ]
+    },
+    "usage": {
+     "input": 10686,
+     "output": 3046
+    }
+   }
+  },
+  {
+   "kind": "event",
+   "label": "Sterling EPC (contractor) faces an insolvency petition"
+  },
+  {
+   "kind": "welcome",
+   "alerts": [
+    {
+     "project_id": "PRJ-081",
+     "project": "Banyan Grove Whispering Woods",
+     "risk_before": 0.0,
+     "risk_now": 28.6,
+     "band_now": "LOW",
+     "change": 28.6,
+     "new_flags": [
+      {
+       "reason": "Pending insolvency case in NCLT Bengaluru",
+       "flag": "CP (IB) 4535/2026 (insolvency)",
+       "path": "Banyan Grove Whispering Woods -[BUILDS]- Sterling EPC -[INVOLVES]- CP (IB) 4535/2026 (insolvency)",
+       "share_pct": 99.9
+      }
+     ]
+    }
+   ],
+   "result": {
+    "text": "Welcome back, Ibz. Banyan Grove Whispering Woods (PRJ-081) has moved from risk 0.0 to 28.6 (LOW) since your last session. The new evidence chain is a pending insolvency case in NCLT Bengaluru: Banyan Grove Whispering Woods builds through Sterling EPC, which is involved in CP (IB) 4535/2026 (insolvency). Suggested next step: ask me to investigate that NCLT case in detail before you decide whether to keep Banyan Grove on your shortlist.",
+    "events": [],
+    "graph": {
+     "nodes": [
+      {
+       "id": "PRJ-081",
+       "kind": "Project",
+       "name": "Banyan Grove Whispering Woods",
+       "flag": false
+      },
+      {
+       "id": "CON-004",
+       "kind": "Contractor",
+       "name": "Sterling EPC",
+       "flag": false
+      },
+      {
+       "id": "CRT-LIVE-1792342144",
+       "kind": "CourtCase",
+       "name": "CP (IB) 4535/2026 (insolvency)",
+       "flag": true
+      }
+     ],
+     "edges": [
+      {
+       "src": "PRJ-081",
+       "dst": "CON-004",
+       "type": "BUILDS",
+       "hot": true
+      },
+      {
+       "src": "CON-004",
+       "dst": "CRT-LIVE-1792342144",
+       "type": "INVOLVES",
+       "hot": true
+      }
+     ]
+    }
+   }
+  }
+ ]
+}
