@@ -365,6 +365,9 @@ tests/                 61 pytest tests (live FalkorDB)
 docs/                  benchmark.md, falkordb-notes.md
 ```
 
+## Use of AI
+- **At runtime:** Khoj's agents support both Google Gemini (`LLM_PROVIDER=gemini`) and Anthropic Claude models for orchestration and tool selection, while all Cypher queries, graph algorithms, and risk calculations run deterministically in FalkorDB and Python.
+- **During development:** AI coding assistants were used for boilerplate assistance and debugging. The graph schema, Cypher queries, and Katz/noisy-OR risk scoring model were designed, verified, and calibrated against FalkorDB by the author.
 
 ## Limitations and next steps
 
